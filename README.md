@@ -1,6 +1,14 @@
-### MockIt
+### Mocker
 
+```java
 @EnableMocker
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
 
 ```java
 @RestController
