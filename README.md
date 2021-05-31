@@ -33,7 +33,7 @@ public class UserController {
 
     // 根据 target 属性，执行本地 json 文件地址，作为 mock 数据
     @Getmapping("/getUser")
-    @MockIt(target="/xxxxx.json", cache=false)
+    @MockIt(target="local://demo/xxxxx.json", cache=false)
     public R getUser(String name){
         User user = userService.getUser(name);
         return R.success(user);
