@@ -23,12 +23,12 @@ public class CacheUtils {
         CACHE.put(key, value);
     }
 
-    public static void clean() {
-        CACHE.invalidateAll();
-    }
-
     public static Object get(Object key) {
         return CACHE.getIfPresent(key);
+    }
+
+    public static void clean() {
+        CACHE.invalidateAll();
     }
 
 }

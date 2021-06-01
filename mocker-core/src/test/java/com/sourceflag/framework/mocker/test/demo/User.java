@@ -17,7 +17,7 @@ public class User {
     private String username;
     private String password;
     private int age;
-    private Double x;
+    private double x;
     private Float y;
     private User u;
 

@@ -1,7 +1,5 @@
 package com.sourceflag.framework.mocker.utils;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +27,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
@@ -322,7 +322,7 @@ public class HttpUtils {
      * @param jsonArray JSONArray
      */
     public ResponseEntry doPost(String url, JSONArray jsonArray) {
-        return doPost(url, jsonArray.toJSONString(), null);
+        return doPost(url, jsonArray.toString(), null);
     }
 
     /**
@@ -333,7 +333,7 @@ public class HttpUtils {
      * @param keepAlive keepAlive
      */
     public ResponseEntry doPost(String url, JSONArray jsonArray, boolean keepAlive) {
-        return doPost(url, jsonArray.toJSONString(), null, keepAlive);
+        return doPost(url, jsonArray.toString(), null, keepAlive);
     }
 
     /**
@@ -343,7 +343,7 @@ public class HttpUtils {
      * @param jsonObject JSONObject
      */
     public ResponseEntry doPost(String url, JSONObject jsonObject) {
-        return doPost(url, jsonObject.toJSONString(), null);
+        return doPost(url, jsonObject.toString(), null);
     }
 
     /**
@@ -354,7 +354,7 @@ public class HttpUtils {
      * @param keepAlive  keepAlive
      */
     public ResponseEntry doPost(String url, JSONObject jsonObject, boolean keepAlive) {
-        return doPost(url, jsonObject.toJSONString(), null, keepAlive);
+        return doPost(url, jsonObject.toString(), null, keepAlive);
     }
 
     /**
@@ -365,7 +365,7 @@ public class HttpUtils {
      * @param headers   headers
      */
     public ResponseEntry doPost(String url, JSONArray jsonArray, Map<String, String> headers) {
-        return doPost(url, jsonArray.toJSONString(), headers);
+        return doPost(url, jsonArray.toString(), headers);
     }
 
     /**
@@ -377,7 +377,7 @@ public class HttpUtils {
      * @param keepAlive keepAlive
      */
     public ResponseEntry doPost(String url, JSONArray jsonArray, Map<String, String> headers, boolean keepAlive) {
-        return doPost(url, jsonArray.toJSONString(), headers, keepAlive);
+        return doPost(url, jsonArray.toString(), headers, keepAlive);
     }
 
     /**
@@ -388,7 +388,7 @@ public class HttpUtils {
      * @param headers    headers
      */
     public ResponseEntry doPost(String url, JSONObject jsonObject, Map<String, String> headers) {
-        return doPost(url, jsonObject.toJSONString(), headers);
+        return doPost(url, jsonObject.toString(), headers);
     }
 
     /**
@@ -400,7 +400,7 @@ public class HttpUtils {
      * @param keepAlive  keepAlive
      */
     public ResponseEntry doPost(String url, JSONObject jsonObject, Map<String, String> headers, boolean keepAlive) {
-        return doPost(url, jsonObject.toJSONString(), headers, keepAlive);
+        return doPost(url, jsonObject.toString(), headers, keepAlive);
     }
 
     /**

@@ -73,4 +73,12 @@ public class MockerTest {
         System.out.println(testController.configComplex());
     }
 
+    @Test
+    @DisplayName("testConfigDifficult")
+    public void testConfigDifficult() {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(testController.configDifficult());
+        System.out.println(testController.configDifficult());
+    }
+
 }

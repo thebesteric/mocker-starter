@@ -43,7 +43,7 @@ public class LocalTargetInstanceProcessor implements InstanceProcessor {
                 }
                 String mockStr = builder.toString();
                 if (StringUtils.isNotEmpty(mockStr)) {
-                    return JsonUtils.mapper.readValue(JsonUtils.toJsonStr(mockStr), method.getReturnType());
+                    return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(mockStr), method.getReturnType());
                 }
             }
         }

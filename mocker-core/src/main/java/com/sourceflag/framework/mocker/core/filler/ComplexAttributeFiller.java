@@ -47,7 +47,9 @@ public class ComplexAttributeFiller implements AttributeFiller {
         for (Field objectField : value.getClass().getDeclaredFields()) {
             for (AttributeFiller attributeFiller : attributeFillers) {
                 if (attributeFiller.match(objectField)) {
-                    attributeFiller.populateInstance(value, objectField, null);
+                    objectField.setAccessible(true);
+                    Object fieldValue = objectField.get(value);
+                    attributeFiller.populateInstance(value, objectField, fieldValue);
                     break;
                 }
             }

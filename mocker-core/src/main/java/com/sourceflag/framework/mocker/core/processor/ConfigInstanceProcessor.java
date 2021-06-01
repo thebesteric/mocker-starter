@@ -56,6 +56,16 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                         if (ComplexAttributeFiller.NonValue.class != clazz) {
                             Constructor<?> constructor = determineConstructor(clazz);
                             value = newInstance(constructor);
+                            MockItAttr[] mockItAttrs = mockItParam.attrs();
+                            for (MockItAttr mockItAttr : mockItAttrs) {
+                                String attrKey = mockItAttr.key();
+                                String attrValue = mockItAttr.value();
+                                for (Field attrField : value.getClass().getDeclaredFields()) {
+                                    if (attrField.getName().equals(attrKey)) {
+                                        value = populateInstance(value, attrField, attrValue);
+                                    }
+                                }
+                            }
                         }
                     }
                     mockInstance = populateInstance(mockInstance, field, value);

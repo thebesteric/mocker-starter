@@ -27,7 +27,7 @@ public class MockInstanceProcessor implements InstanceProcessor {
         String mockStr = mockIt.mock();
         if (!StringUtils.isEmpty(mockStr)) {
             try {
-                return JsonUtils.mapper.readValue(JsonUtils.toJsonStr(mockStr), method.getReturnType());
+                return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(mockStr), method.getReturnType());
             } catch (Throwable throwable) {
                 throw new JsonParseException(String.format("Cannot parse %s to %s", mockStr, method.getReturnType().getName()));
             }

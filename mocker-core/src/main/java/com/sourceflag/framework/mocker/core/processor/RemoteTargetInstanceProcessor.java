@@ -37,7 +37,7 @@ public class RemoteTargetInstanceProcessor implements InstanceProcessor {
         if (StringUtils.isNotEmpty(protocol)) {
             HttpUtils.ResponseEntry responseEntry = httpUtils.doGet(target);
             if (responseEntry.getCode() == HttpStatus.SC_OK) {
-                return JsonUtils.mapper.readValue(JsonUtils.toJsonStr(responseEntry.getHttpStr()), method.getReturnType());
+                return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(responseEntry.getHttpStr()), method.getReturnType());
             }
         }
         return null;
