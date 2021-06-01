@@ -80,7 +80,8 @@ public class TestController extends BaseController {
             @MockItParam(key = "message", value = "OK"),
             @MockItParam(key = "data", clazz = User.class,
                     attrs = {@MockItAttr(key = "username", value = "me"),
-                            @MockItAttr(key = "password", value = "****")})}))
+                            @MockItAttr(key = "password", value = "****"),
+                            @MockItAttr(key = "u", clazz = User.class)})}))
     @GetMapping("/configDifficult")
     public R configDifficult() {
         return R.success();
