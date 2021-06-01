@@ -38,6 +38,7 @@ public class ComplexAttributeFiller implements AttributeFiller {
         if (value == null) {
             value = mockInstance;
             if (recursionTimes++ == properties.getRevisionTimes()) {
+                recursionTimes = 0;
                 return;
             }
         }
