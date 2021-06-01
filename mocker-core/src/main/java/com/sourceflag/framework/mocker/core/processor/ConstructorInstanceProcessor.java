@@ -2,13 +2,9 @@ package com.sourceflag.framework.mocker.core.processor;
 
 import com.sourceflag.framework.mocker.annotation.MockIt;
 import com.sourceflag.framework.mocker.core.filler.AttributeFiller;
-import com.sourceflag.framework.mocker.utils.ObjectUtils;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,10 +15,11 @@ import java.util.List;
  * @date 2021-05-28 22:22
  * @since 1.0
  */
-@RequiredArgsConstructor
-public class ConstructorInstanceProcessor implements InstanceProcessor {
+public class ConstructorInstanceProcessor extends AbstractConstructorInstanceProcessor {
 
-    private final List<AttributeFiller> attributeFillers;
+    public ConstructorInstanceProcessor(List<AttributeFiller> attributeFillers) {
+        super(attributeFillers);
+    }
 
     @Override
     public boolean match(MockIt mockIt) {
@@ -36,30 +33,6 @@ public class ConstructorInstanceProcessor implements InstanceProcessor {
         Object mockInstance = newInstance(constructor);
 
         // initialization mock instance
-        for (AttributeFiller attributeFiller : attributeFillers) {
-            attributeFiller.fill(mockInstance);
-        }
-        return mockInstance;
-    }
-
-    private Constructor<?> determineConstructor(Class<?> clazz) {
-        Constructor<?>[] rawCandidates = clazz.getDeclaredConstructors();
-        List<Constructor<?>> constructors = Arrays.asList(rawCandidates);
-        constructors.sort((o1, o2) -> {
-            if (o1.getParameterCount() != o2.getParameterCount()) {
-                return o1.getParameterCount() > o2.getParameterCount() ? 1 : -1;
-            }
-            return 0;
-        });
-        return constructors.get(0);
-    }
-
-    private Object newInstance(Constructor<?> constructor) throws Exception {
-        Parameter[] parameters = constructor.getParameters();
-        Object[] args = new Object[parameters.length];
-        for (int i = 0; i < args.length; i++) {
-            args[i] = ObjectUtils.initialValue(parameters[i].getType());
-        }
-        return constructor.newInstance(args);
+        return populateInstance(mockInstance);
     }
 }

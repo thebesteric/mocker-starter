@@ -17,10 +17,12 @@ import java.lang.reflect.Field;
 public class StringAttributeFiller implements AttributeFiller {
 
     @Override
-    public void doFill(Object mockInstance, Field field) throws Exception {
-        Class<?> fieldClassType = field.getType();
-        if (fieldClassType == String.class) {
-            field.set(mockInstance, RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4));
-        }
+    public boolean match(Field field) {
+        return String.class == field.getType();
+    }
+
+    @Override
+    public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
+        field.set(mockInstance, value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4));
     }
 }

@@ -1,6 +1,6 @@
 package com.sourceflag.framework.mocker.annotation;
 
-import org.springframework.core.annotation.AliasFor;
+import com.sourceflag.framework.mocker.core.filler.ComplexAttributeFiller;
 
 import java.lang.annotation.*;
 
@@ -15,14 +15,11 @@ import java.lang.annotation.*;
 @Documented
 public @interface MockItParam {
 
-    @AliasFor(annotation = MockItAttr.class)
+    String key();
+
     String value() default "";
 
-    @AliasFor(annotation = MockItAttr.class)
-    String key() default "";
-
-    @AliasFor(annotation = MockItAttr.class)
-    String clazz() default "";
+    Class<?> clazz() default ComplexAttributeFiller.NonValue.class;
 
     MockItAttr[] attrs() default {};
 }

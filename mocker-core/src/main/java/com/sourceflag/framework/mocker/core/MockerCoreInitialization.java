@@ -24,9 +24,6 @@ public class MockerCoreInitialization extends MockerInitialization {
             log.info("MOCKER is disabled");
             return;
         }
-
         log.info("MOCKER is running");
-
-        String projectPath = getProjectPath();
     }
 }

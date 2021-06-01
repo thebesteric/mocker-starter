@@ -2,6 +2,7 @@ package com.sourceflag.framework.mocker.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -37,6 +38,10 @@ public class JsonUtils {
         str = str.replace(",", "\",\"");
         str = str.replace("}", "\"}");
         return str;
+    }
+
+    public static Object deepCopy(Object obj) throws JsonProcessingException {
+        return mapper.readValue(mapper.writeValueAsString(obj), obj.getClass());
     }
 
 }

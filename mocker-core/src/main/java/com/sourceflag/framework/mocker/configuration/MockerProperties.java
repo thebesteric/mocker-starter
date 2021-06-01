@@ -19,6 +19,10 @@ public class MockerProperties {
 
     public static final String PROPERTIES_PREFIX = "sourceflag.mocker";
 
+    /** 总开关 */
     private boolean enable = true;
+
+    /** 嵌套父子对象递归次数 */
+    private int revisionTimes = 1;
 
 }

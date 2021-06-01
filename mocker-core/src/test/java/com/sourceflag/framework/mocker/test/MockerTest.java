@@ -57,5 +57,20 @@ public class MockerTest {
         System.out.println(testController.remoteTarget());
     }
 
+    @Test
+    @DisplayName("testConfigSimple")
+    public void testConfigSimple() {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(testController.configSimple());
+        System.out.println(testController.configSimple());
+    }
+
+    @Test
+    @DisplayName("testConfigComplex")
+    public void testConfigComplex() {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(testController.configComplex());
+        System.out.println(testController.configComplex());
+    }
 
 }

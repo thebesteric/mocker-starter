@@ -1,5 +1,7 @@
 package com.sourceflag.framework.mocker.annotation;
 
+import com.sourceflag.framework.mocker.core.filler.ComplexAttributeFiller;
+
 import java.lang.annotation.*;
 
 /**
@@ -16,8 +18,8 @@ public @interface MockItAttr {
 
     String key();
 
-    String value();
+    String value() default "";
 
-    Class<?> clazz();
+    Class<?> clazz() default ComplexAttributeFiller.NonValue.class;
 
 }

@@ -16,35 +16,76 @@ public interface AttributeFiller {
     Random RANDOM = new Random(System.nanoTime());
 
     /**
-     * 属性填充
+     * 是否匹配
      *
-     * @param mockInstance mock 实例
-     * @throws Exception exception
+     * @param field 字段
+     * @return boolean
      * @author Eric
-     * @date 2021/5/27 18:41
+     * @date 2021/6/1 1:47
      */
-    default void fill(Object mockInstance) throws Exception {
-        Class<?> currentClass = mockInstance.getClass();
-        do {
-            Field[] fields = currentClass.getDeclaredFields();
-            for (Field field : fields) {
-                field.setAccessible(true);
-                doFill(mockInstance, field);
-            }
-            currentClass = currentClass.getSuperclass();
-        } while (currentClass != null && currentClass != Object.class);
-    }
+    boolean match(Field field);
 
     /**
      * 属性填充
      *
      * @param mockInstance mock 实例
      * @param field        字段
-     * @throws Exception exception
+     * @param value        字符串值
+     * @throws Throwable throwable
+     * @author Eric
+     * @date 2021/6/1 0:17
+     */
+    default void populateInstance(Object mockInstance, Field field, Object value) throws Throwable {
+        field.setAccessible(true);
+        doPopulateInstance(mockInstance, field, value);
+    }
+
+    /**
+     * 属性填充
+     *
+     * @param mockInstance mock 实例
+     * @throws Throwable throwable
+     * @author Eric
+     * @date 2021/5/27 18:41
+     */
+    default void populateInstance(Object mockInstance) throws Throwable {
+        Class<?> currentClass = mockInstance.getClass();
+        do {
+            Field[] fields = currentClass.getDeclaredFields();
+            for (Field field : fields) {
+                if (match(field)) {
+                    field.setAccessible(true);
+                    doPopulateInstance(mockInstance, field);
+                }
+            }
+            currentClass = currentClass.getSuperclass();
+        } while (currentClass != null && currentClass != Object.class);
+    }
+
+    /**
+     * 属性填充（随机填充）
+     *
+     * @param mockInstance mock 实例
+     * @param field        字段
+     * @throws Throwable throwable
      * @author Eric
      * @date 2021/5/27 18:42
      */
-    void doFill(Object mockInstance, Field field) throws Exception;
+    default void doPopulateInstance(Object mockInstance, Field field) throws Throwable {
+        doPopulateInstance(mockInstance, field, null);
+    }
+
+    /**
+     * 属性填充（指定填充）
+     *
+     * @param mockInstance mock 实例
+     * @param field        字段
+     * @param value        值
+     * @throws Throwable throwable
+     * @author Eric
+     * @date 2021/6/1 0:15
+     */
+    void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable;
 
     /**
      * 是否是包装类型
@@ -72,5 +113,17 @@ public interface AttributeFiller {
      */
     default boolean isPrimitive(Class<?> clazz) {
         return clazz.isPrimitive();
+    }
+
+    /**
+     * 是否是复合类型
+     *
+     * @param clazz class
+     * @return boolean
+     * @author Eric
+     * @date 2021/5/27 18:44
+     */
+    default boolean isComplex(Class<?> clazz) {
+        return !isPrimitive(clazz) && !isWrap(clazz) && clazz != String.class && ComplexAttributeFiller.NonValue.class != clazz;
     }
 }

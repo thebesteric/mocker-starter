@@ -19,6 +19,7 @@ public class User {
     private int age;
     private Double x;
     private Float y;
+    private User u;
 
     public User(String username, String password, int age) {
         this.username = username;

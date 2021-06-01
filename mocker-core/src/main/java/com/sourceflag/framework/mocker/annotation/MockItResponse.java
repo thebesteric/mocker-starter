@@ -1,5 +1,7 @@
 package com.sourceflag.framework.mocker.annotation;
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.*;
 
 /**
@@ -13,6 +15,10 @@ import java.lang.annotation.*;
 @Documented
 public @interface MockItResponse {
 
+    @AliasFor("params")
+    MockItParam[] value() default {};
+
+    @AliasFor("value")
     MockItParam[] params() default {};
 
 }

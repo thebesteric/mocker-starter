@@ -2,10 +2,7 @@ package com.sourceflag.framework.mocker.configuration;
 
 import com.sourceflag.framework.mocker.core.MockerCoreInitialization;
 import com.sourceflag.framework.mocker.core.enhancer.MockerAnnotationEnhancer;
-import com.sourceflag.framework.mocker.core.filler.AttributeFiller;
-import com.sourceflag.framework.mocker.core.filler.PrimitiveAttributeFiller;
-import com.sourceflag.framework.mocker.core.filler.StringAttributeFiller;
-import com.sourceflag.framework.mocker.core.filler.WarpAttributeFiller;
+import com.sourceflag.framework.mocker.core.filler.*;
 import com.sourceflag.framework.mocker.core.processor.*;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -15,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -45,6 +41,8 @@ public class MockerAutoConfiguration {
         return new MockerAnnotationEnhancer(beanFactory, properties, instanceProcessors);
     }
 
+    // for AttributeFiller
+
     @Bean
     public AttributeFiller primitiveAttributeFiller() {
         return new PrimitiveAttributeFiller();
@@ -59,6 +57,15 @@ public class MockerAutoConfiguration {
     public AttributeFiller stringAttributeFiller() {
         return new StringAttributeFiller();
     }
+
+    @Bean
+    public AttributeFiller complexAttributeFiller(List<AttributeFiller> attributeFillers, MockerProperties properties) {
+        ComplexAttributeFiller complexAttributeFiller = new ComplexAttributeFiller(attributeFillers, properties);
+        complexAttributeFiller.getAttributeFillers().add(complexAttributeFiller);
+        return complexAttributeFiller;
+    }
+
+    // for InstanceProcessor
 
     @Bean
     public InstanceProcessor mockInstanceProcessor() {
@@ -78,6 +85,11 @@ public class MockerAutoConfiguration {
     @Bean
     public InstanceProcessor localTargetInstanceProcessor() {
         return new LocalTargetInstanceProcessor();
+    }
+
+    @Bean
+    public InstanceProcessor configInstanceProcessor(List<AttributeFiller> attributeFillers) {
+        return new ConfigInstanceProcessor(attributeFillers);
     }
 
 }

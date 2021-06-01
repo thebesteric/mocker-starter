@@ -1,7 +1,6 @@
 package com.sourceflag.framework.mocker.test.demo;
 
-import com.sourceflag.framework.mocker.annotation.MockIt;
-import com.sourceflag.framework.mocker.annotation.Mocker;
+import com.sourceflag.framework.mocker.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +46,7 @@ public class TestController extends BaseController {
         return USERS.get(2);
     }
 
-    @MockIt(target = "local://demo1/user.json")
+    @MockIt(target = "local://demo/user.json")
     @GetMapping("/localTarget")
     public User localTarget() {
         return USERS.get(3);
@@ -57,6 +56,32 @@ public class TestController extends BaseController {
     @GetMapping("/remoteTarget")
     public User remoteTarget() {
         return USERS.get(3);
+    }
+
+    @MockIt(config = @MockItResponse(params = {
+            @MockItParam(key = "code", value = "201"),
+            @MockItParam(key = "message", value = "OK")}))
+    @GetMapping("/configSimple")
+    public R configSimple() {
+        return R.success();
+    }
+
+    @MockIt(config = @MockItResponse(params = {
+            @MockItParam(key = "code", value = "201"),
+            @MockItParam(key = "message", value = "OK"),
+            @MockItParam(key = "data", clazz = User.class)}))
+    @GetMapping("/configComplex")
+    public R configComplex() {
+        return R.success();
+    }
+
+    @MockIt(config = @MockItResponse(params = {
+            @MockItParam(key = "code", value = "201"),
+            @MockItParam(key = "message", value = "OK"),
+            @MockItParam(key = "data", clazz = User.class, attrs = {@MockItAttr(key = "username", value = "me")})}))
+    @GetMapping("/configDifficult")
+    public R configDifficult() {
+        return R.success();
     }
 
 }
