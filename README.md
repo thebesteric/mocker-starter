@@ -1,4 +1,6 @@
-### Mocker
+### Quick Start
+
+- Starter plugin based on SpringBoot
 
 ```java
 @EnableMocker
@@ -9,6 +11,8 @@ public class Application {
     }
 }
 ```
+
+- Use mocker at the Controller layer
 
 ```java
 @RestController
@@ -77,5 +81,10 @@ public class UserController {
 }
 ```
 
-
-
+### Configure Mocker
+```yaml
+sourceflag:
+  mocker:
+    enable: true
+    revision-times: 2
+```
