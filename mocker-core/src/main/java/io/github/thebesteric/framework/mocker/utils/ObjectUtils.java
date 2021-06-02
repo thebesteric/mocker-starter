@@ -29,18 +29,18 @@ public class ObjectUtils {
         return sb.toString();
     }
 
-    public static String toLowerCaseFirst(String s) {
-        if (Character.isLowerCase(s.charAt(0)))
-            return s;
-        else
-            return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+    public static String toLowerCaseFirst(String str) {
+        if (Character.isLowerCase(str.charAt(0))) {
+            return str;
+        }
+        return Character.toLowerCase(str.charAt(0)) + str.substring(1);
     }
 
-    public static String toUpperCaseFirst(String s) {
-        if (Character.isUpperCase(s.charAt(0)))
-            return s;
-        else
-            return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    public static String toUpperCaseFirst(String str) {
+        if (Character.isUpperCase(str.charAt(0))) {
+            return str;
+        }
+        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
 
     public static Object initialValue(Class<?> clazz) {
