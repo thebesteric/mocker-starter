@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>mocker-starter</artifactId>
-        <groupId>com.sourceflag.framework</groupId>
+        <groupId>io.github.thebesteric.framework</groupId>
         <version>0.0.1-beta</version>
     </parent>
 

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.sourceflag.framework.mocker.configuration.MockerAutoConfiguration
+  io.github.thebesteric.framework.mocker.configuration.MockerAutoConfiguration

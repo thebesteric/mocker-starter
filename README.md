@@ -1,6 +1,6 @@
 ### Quick Start
 
-- Starter plugin based on SpringBoot
+- Mocker Starter plugin based on SpringBoot
 
 ```java
 @EnableMocker
@@ -86,5 +86,5 @@ public class UserController {
 sourceflag:
   mocker:
     enable: true
-    revision-times: 2
+    revision-times: 2en
 ```
