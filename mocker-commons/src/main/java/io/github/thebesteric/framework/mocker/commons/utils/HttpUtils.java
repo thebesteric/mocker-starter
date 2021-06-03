@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.utils;
+package io.github.thebesteric.framework.mocker.commons.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -72,7 +72,7 @@ public class HttpUtils {
     }
 
     public static HttpUtils getInstance() {
-        return HttpUtils.Holder.instance;
+        return Holder.instance;
     }
 
     private static class Holder {
@@ -95,7 +95,7 @@ public class HttpUtils {
         private final int validateAfterInactivity = 30000;
     }
 
-    private void initPool(HttpUtils.HttpUtilsConfig config) {
+    private void initPool(HttpUtilsConfig config) {
         // 设置连接池
         connMgr = new PoolingHttpClientConnectionManager();
         // 设置整个连接池最大连接数

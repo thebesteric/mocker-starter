@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.utils;
+package io.github.thebesteric.framework.mocker.commons.utils;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

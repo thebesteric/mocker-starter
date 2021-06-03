@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.utils;
+package io.github.thebesteric.framework.mocker.commons.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -135,6 +135,19 @@ public class ReflectUtils {
                 argumentTypes[i] = clazz;
             }
             return argumentTypes;
+        }
+        return null;
+    }
+
+    public static Object[] argumentValues(Constructor<?> constructor) {
+        Parameter[] parameters = constructor.getParameters();
+        if (parameters.length != 0) {
+            Object[] argumentValues = new Class<?>[parameters.length];
+            for (int i = 0; i < parameters.length; i++) {
+                Class<?> clazz = parameters[i].getType();
+                argumentValues[i] = ObjectUtils.initialValue(clazz);
+            }
+            return argumentValues;
         }
         return null;
     }

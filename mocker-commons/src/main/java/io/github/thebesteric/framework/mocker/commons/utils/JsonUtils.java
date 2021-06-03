@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.utils;
+package io.github.thebesteric.framework.mocker.commons.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;

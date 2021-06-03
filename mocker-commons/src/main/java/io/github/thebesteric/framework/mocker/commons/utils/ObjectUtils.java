@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.utils;
+package io.github.thebesteric.framework.mocker.commons.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
