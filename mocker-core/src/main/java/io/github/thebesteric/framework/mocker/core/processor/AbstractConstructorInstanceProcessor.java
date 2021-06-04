@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
-import io.github.thebesteric.framework.mocker.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

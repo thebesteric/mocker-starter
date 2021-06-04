@@ -3,7 +3,7 @@ package io.github.thebesteric.framework.mocker.core.enhancer;
 import io.github.thebesteric.framework.mocker.annotation.Mocker;
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
 import io.github.thebesteric.framework.mocker.core.processor.InstanceProcessor;
-import io.github.thebesteric.framework.mocker.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

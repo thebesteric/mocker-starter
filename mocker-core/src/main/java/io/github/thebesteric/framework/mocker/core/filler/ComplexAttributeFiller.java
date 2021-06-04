@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
-import io.github.thebesteric.framework.mocker.utils.JsonUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
-import io.github.thebesteric.framework.mocker.utils.JsonUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
-import io.github.thebesteric.framework.mocker.utils.CacheUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 
 import java.lang.reflect.Method;
 
