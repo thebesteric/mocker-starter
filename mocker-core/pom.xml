@@ -23,7 +23,7 @@
         </dependency>
 
         <dependency>
-            <groupId>io.github.thebesteric.framework</groupId>
+            <groupId>io.github.thebesteric.framework.mocker</groupId>
             <artifactId>mocker-commons</artifactId>
             <version>${project.version}</version>
         </dependency>

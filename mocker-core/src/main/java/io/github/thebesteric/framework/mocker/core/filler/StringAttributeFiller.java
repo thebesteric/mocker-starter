@@ -23,6 +23,7 @@ public class StringAttributeFiller implements AttributeFiller {
 
     @Override
     public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
+        // random 4 ~ 10 characters
         field.set(mockInstance, value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4));
     }
 }
