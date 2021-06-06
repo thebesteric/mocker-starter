@@ -86,5 +86,5 @@ public class UserController {
 sourceflag:
   mocker:
     enable: true
-    revision-times: 2en
+    revision-times: 2
 ```
