@@ -8,6 +8,8 @@ import test.demo.UserDao;
 import test.demo.UserService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * MockerTest
@@ -28,9 +30,9 @@ public class MockerTest {
         UserService userService = new UserService(mockUserDao);
         Assertions.assertEquals("eric", userService.sayHello("zs"));
 
-        UserService service =  Mocker.mock(UserService.class);
+        UserService service = Mocker.mock(UserService.class);
         Mocker.when(service.count()).thenReturn(100);
-        System.out.println(service.count());
+        Assertions.assertEquals(100, service.count());
     }
 
     @Test
@@ -39,15 +41,24 @@ public class MockerTest {
         Mocker.when(list.get(0)).thenReturn("first");
         Assertions.assertEquals("first", list.get(0));
 
-        Mocker.when(list.get(1)).thenReturn("second");
-        Assertions.assertEquals("second", list.get(1));
+        // Mocker.when(list.get(0)).thenReturn("second");
+        // Assertions.assertEquals("second", list.get(0));
+    }
+
+    @Test
+    public void mockIterator() {
+        Iterator<?> iterator = Mocker.mock(Iterator.class);
+        Mocker.when(iterator.next()).thenReturn("first").thenReturn("second");
+
+        Assertions.assertEquals("first", iterator.next());
+        Assertions.assertEquals("second", iterator.next());
     }
 
     @Test
     public void mockThrow() {
-        ArrayList<?> list = Mocker.mock(ArrayList.class);
+        List<?> list = Mocker.mock(ArrayList.class);
         Mocker.when(list.get(0)).thenThrow(new RuntimeException("mock throw"));
-        Assertions.assertThrows(RuntimeException.class, ()-> list.get(0));
+        Assertions.assertThrows(RuntimeException.class, () -> list.get(0));
     }
 
 }
