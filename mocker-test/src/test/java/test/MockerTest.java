@@ -41,8 +41,8 @@ public class MockerTest {
         Mocker.when(list.get(0)).thenReturn("first");
         Assertions.assertEquals("first", list.get(0));
 
-        // Mocker.when(list.get(0)).thenReturn("second");
-        // Assertions.assertEquals("second", list.get(0));
+        Mocker.when(list.get(1)).thenReturn("second");
+        Assertions.assertEquals("second", list.get(1));
     }
 
     @Test
