@@ -1,4 +1,4 @@
 sourceflag:
   mocker:
     enable: true
-    revision-times: 2
+    revision-times: 1

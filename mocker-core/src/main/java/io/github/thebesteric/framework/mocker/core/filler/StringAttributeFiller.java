@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.lang.reflect.Field;
@@ -14,16 +15,21 @@ import java.lang.reflect.Field;
  * @date 2021-05-27 11:57
  * @since 1.0
  */
-public class StringAttributeFiller implements AttributeFiller {
+public class StringAttributeFiller extends AbstractAttributeFiller {
 
     @Override
-    public boolean match(Field field) {
-        return String.class == field.getType();
+    public boolean match(Class<?> clazz) {
+        return ReflectUtils.isString(clazz);
     }
 
     @Override
     public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
         // random 4 ~ 10 characters
-        field.set(mockInstance, value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4));
+        field.set(mockInstance, mockValue(field.getType(), mockInstance, value));
+    }
+
+    @Override
+    public Object mockValue(Class<?> clazz, Object instance, Object value) {
+        return value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4);
     }
 }

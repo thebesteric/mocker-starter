@@ -73,6 +73,39 @@ public class ReflectUtils {
         return Modifier.isFinal(field.getModifiers());
     }
 
+    public static boolean isWrap(Class<?> clazz) {
+        try {
+            return ((Class<?>) clazz.getField("TYPE").get(null)).isPrimitive();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isString(Class<?> clazz) {
+        return String.class == clazz;
+    }
+
+    public static boolean isPrimitive(Class<?> clazz) {
+        return clazz.isPrimitive();
+    }
+
+    public static boolean isComplex(Class<?> clazz) {
+        return !isPrimitive(clazz) && !isWrap(clazz) && !isList(clazz) && !isMap(clazz)
+                && clazz != String.class;
+    }
+
+    public static boolean isArray(Class<?> clazz) {
+        return clazz.isArray();
+    }
+
+    public static boolean isList(Class<?> clazz) {
+        return List.class.isAssignableFrom(clazz);
+    }
+
+    public static boolean isMap(Class<?> clazz) {
+        return Map.class.isAssignableFrom(clazz);
+    }
+
 
     public static List<Field> getFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();

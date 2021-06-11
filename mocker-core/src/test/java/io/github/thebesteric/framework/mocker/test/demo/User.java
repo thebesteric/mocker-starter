@@ -3,6 +3,9 @@ package io.github.thebesteric.framework.mocker.test.demo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * User
  *
@@ -20,6 +23,13 @@ public class User {
     private double x;
     private Float y;
     private User u;
+    private Order o;
+    private String[] arr;
+    private Order[] orders;
+    private List<Integer> list;
+    private List<Order> listOrders;
+    private Map<String, String> maps;
+    private Map<String, Order> mapOrders;
 
     public User(String username, String password, int age) {
         this.username = username;

@@ -40,7 +40,7 @@ public abstract class AbstractConstructorInstanceProcessor implements InstancePr
 
     protected Object populateInstance(Object mockInstance, Field field, Object value) throws Throwable {
         for (AttributeFiller attributeFiller : attributeFillers) {
-            if (attributeFiller.match(field)) {
+            if (attributeFiller.match(field.getType())) {
                 attributeFiller.populateInstance(mockInstance, field, value);
             }
         }

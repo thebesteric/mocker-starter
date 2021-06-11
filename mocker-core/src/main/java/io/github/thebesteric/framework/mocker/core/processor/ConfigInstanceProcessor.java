@@ -92,7 +92,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
 
     @Override
     public int order() {
-        return 3;
+        return InstanceProcessor.CONFIG_PROCESSOR_ORDER;
     }
 
 }

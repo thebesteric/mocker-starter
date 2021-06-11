@@ -59,10 +59,23 @@ public class MockerAutoConfiguration {
     }
 
     @Bean
-    public AttributeFiller complexAttributeFiller(List<AttributeFiller> attributeFillers, MockerProperties properties) {
-        ComplexAttributeFiller complexAttributeFiller = new ComplexAttributeFiller(attributeFillers, properties);
-        complexAttributeFiller.getAttributeFillers().add(complexAttributeFiller);
-        return complexAttributeFiller;
+    public AttributeFiller arrayAttributeFiller() {
+        return new ArrayAttributeFiller();
+    }
+
+    @Bean
+    public AttributeFiller listAttributeFiller() {
+        return new ListAttributeFiller();
+    }
+
+    @Bean
+    public AttributeFiller mapAttributeFiller() {
+        return new MapAttributeFiller();
+    }
+
+    @Bean
+    public AttributeFiller complexAttributeFiller() {
+        return new ComplexAttributeFiller();
     }
 
     // for InstanceProcessor
@@ -73,8 +86,8 @@ public class MockerAutoConfiguration {
     }
 
     @Bean
-    public InstanceProcessor constructorInstanceProcessor(List<AttributeFiller> attributeFillers) {
-        return new ConstructorInstanceProcessor(attributeFillers);
+    public InstanceProcessor defaultInstanceProcessor(List<AttributeFiller> attributeFillers) {
+        return new DefaultInstanceProcessor(attributeFillers);
     }
 
     @Bean

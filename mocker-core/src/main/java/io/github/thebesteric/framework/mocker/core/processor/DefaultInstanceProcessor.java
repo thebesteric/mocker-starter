@@ -8,16 +8,18 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * ConstructorInstanceProcessor
+ * DefaultInstanceProcessor
+ * <p>
+ * Use the Constructor to create an instance
  *
  * @author Eric Joe
  * @version 1.0
  * @date 2021-05-28 22:22
  * @since 1.0
  */
-public class ConstructorInstanceProcessor extends AbstractConstructorInstanceProcessor {
+public class DefaultInstanceProcessor extends AbstractConstructorInstanceProcessor {
 
-    public ConstructorInstanceProcessor(List<AttributeFiller> attributeFillers) {
+    public DefaultInstanceProcessor(List<AttributeFiller> attributeFillers) {
         super(attributeFillers);
     }
 

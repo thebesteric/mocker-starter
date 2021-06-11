@@ -18,12 +18,12 @@ public interface AttributeFiller {
     /**
      * 是否匹配
      *
-     * @param field 字段
+     * @param clazz 字段
      * @return boolean
      * @author Eric
      * @date 2021/6/1 1:47
      */
-    boolean match(Field field);
+    boolean match(Class<?> clazz);
 
     /**
      * 属性填充
@@ -53,7 +53,7 @@ public interface AttributeFiller {
         do {
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (match(field)) {
+                if (match(field.getType())) {
                     field.setAccessible(true);
                     doPopulateInstance(mockInstance, field);
                 }
@@ -88,42 +88,17 @@ public interface AttributeFiller {
     void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable;
 
     /**
-     * 是否是包装类型
+     * 属性填充（指定填充）
      *
-     * @param clazz class
-     * @return boolean
+     * @param clazz    clazz
+     * @param instance instance
+     * @param value    值
+     * @return Object
+     * @throws Throwable throwable
      * @author Eric
-     * @date 2021/5/27 18:43
+     * @date 2021/6/10 1:10
      */
-    default boolean isWrap(Class<?> clazz) {
-        try {
-            return ((Class<?>) clazz.getField("TYPE").get(null)).isPrimitive();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * 是否是基本类型
-     *
-     * @param clazz class
-     * @return boolean
-     * @author Eric
-     * @date 2021/5/27 18:44
-     */
-    default boolean isPrimitive(Class<?> clazz) {
-        return clazz.isPrimitive();
-    }
-
-    /**
-     * 是否是复合类型
-     *
-     * @param clazz class
-     * @return boolean
-     * @author Eric
-     * @date 2021/5/27 18:44
-     */
-    default boolean isComplex(Class<?> clazz) {
-        return !isPrimitive(clazz) && !isWrap(clazz) && clazz != String.class && ComplexAttributeFiller.NonValue.class != clazz;
+    default Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
+        return null;
     }
 }

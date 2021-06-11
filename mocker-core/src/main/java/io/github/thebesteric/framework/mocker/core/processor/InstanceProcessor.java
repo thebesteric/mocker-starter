@@ -13,6 +13,11 @@ import java.lang.reflect.Method;
  */
 public interface InstanceProcessor {
 
+    int MOCK_PROCESSOR_ORDER = 1;
+    int LOCAL_PROCESSOR_ORDER = 2;
+    int REMOTE_PROCESSOR_ORDER = 3;
+    int CONFIG_PROCESSOR_ORDER = 4;
+
     /**
      * 是否匹配
      *
