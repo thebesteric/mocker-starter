@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 
@@ -78,7 +79,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         if (declaredFields.length > 0) {
             for (Field objectField : declaredFields) {
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                    if (attributeFiller.match(objectField.getType())) {
+                    if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {
                         objectField.setAccessible(true);
                         Object fieldValue = objectField.get(instance);
                         attributeFiller.populateInstance(instance, objectField, fieldValue);

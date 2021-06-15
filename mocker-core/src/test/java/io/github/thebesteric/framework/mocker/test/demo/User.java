@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.test.demo;
 
+import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,8 @@ import java.util.Map;
 public class User {
     private String username;
     private String password;
-    private int age;
+    @MockIgnore
+    private Integer age;
     private double x;
     private Float y;
     private User u;
