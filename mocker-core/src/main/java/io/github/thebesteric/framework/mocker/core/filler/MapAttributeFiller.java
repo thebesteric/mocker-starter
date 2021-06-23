@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -14,6 +16,7 @@ import java.util.Map;
  * @date 2021-06-10 12:35
  * @since 1.0
  */
+@Slf4j
 public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
 
     @Override
@@ -26,7 +29,14 @@ public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
 
         Map<Object, Object> map = new HashMap<>(16);
 
-        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+        ParameterizedType parameterizedType;
+        try {
+            // Perhaps a subclass of map
+            parameterizedType = (ParameterizedType) field.getGenericType();
+        } catch (Exception ex) {
+            log.debug(ex.getMessage());
+            return;
+        }
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
         Class<?> keyType = Class.forName(actualTypeArguments[0].getTypeName());
@@ -48,7 +58,6 @@ public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
                 }
             }
         }
-
 
         field.set(mockInstance, map);
     }

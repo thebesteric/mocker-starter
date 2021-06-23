@@ -58,8 +58,10 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         // create new instance if not same type object
         if (clazz != mockInstance.getClass() && value == null) {
             Constructor<?> constructor = ReflectUtils.determineConstructor(clazz);
-            instance = ReflectUtils.newInstance(constructor);
-            if (instance.getClass() == Object.class) {
+            if (constructor != null) {
+                instance = ReflectUtils.newInstance(constructor);
+            }
+            if (constructor == null || instance.getClass() == Object.class) {
                 return null;
             }
         }
