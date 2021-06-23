@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.test;
 
-import lombok.Getter;
+import io.github.thebesteric.framework.mocker.commons.utils.ObjectUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 
@@ -16,32 +17,33 @@ import java.lang.reflect.Method;
  */
 public class MockerInterceptor implements MethodInterceptor {
 
-    @Getter
-    private Method mockMethod;
-
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-
-        Throwable returnThrowable = Mocker.threadLocal.get().getReturnThrowable();
+        // If an exception is defined, it is thrown first
+        MockInstance mockInstance = Mocker.threadLocal.get();
+        Throwable returnThrowable = mockInstance.getReturnThrowable();
         if (returnThrowable != null) {
             throw returnThrowable;
         }
 
-        Object returnValue = Mocker.threadLocal.get().getReturnValue();
-        if (returnValue != null) {
-            if (getMethodSignature(mockMethod).equals(getMethodSignature(method))) {
-                return returnValue;
+        MethodHolder methodHolder = mockInstance.getMethodHolder();
+        if (mockInstance.getReturnValues() != null) {
+            Object returnValue = mockInstance.getReturnValue();
+            if (returnValue != null) {
+                if (methodHolder.getMethodSignature().equals(ReflectUtils.getMethodSignature(method))) {
+                    return returnValue;
+                }
+                return methodProxy.invokeSuper(obj, args);
             }
-            return methodProxy.invokeSuper(obj, args);
         }
-
-
-        this.mockMethod = method;
-        // TODO 反射方法返回值，随机给一个值
-        return String.format("%s will be mock", method.getName());
+        // when you execute the when method, it's going to go here
+        return getEligibleReturnValue(method, args);
     }
 
-    public String getMethodSignature(Method method) {
-        return method.getDeclaringClass().getName() + "." + method.getName();
+    private Object getEligibleReturnValue(Method method, Object[] args) {
+        MethodHolder methodHolder = new MethodHolder(method, args);
+        Mocker.threadLocal.get().setMethodHolder(methodHolder);
+        Class<?> returnType = method.getReturnType();
+        return ObjectUtils.initialValue(returnType);
     }
 }

@@ -37,6 +37,6 @@ public class MockInstanceProcessor implements InstanceProcessor {
 
     @Override
     public int order() {
-        return 1;
+        return InstanceProcessor.MOCK_PROCESSOR_ORDER;
     }
 }

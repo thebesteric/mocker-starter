@@ -25,4 +25,7 @@ public class MockerProperties {
     /** 嵌套父子对象递归次数 */
     private int revisionTimes = 1;
 
+    /** 列表长度 */
+    private int iteratorLength = 3;
+
 }

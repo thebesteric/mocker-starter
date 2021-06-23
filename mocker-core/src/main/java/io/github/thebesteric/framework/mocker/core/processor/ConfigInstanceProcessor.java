@@ -1,9 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
-import io.github.thebesteric.framework.mocker.annotation.MockIt;
-import io.github.thebesteric.framework.mocker.annotation.MockItAttr;
-import io.github.thebesteric.framework.mocker.annotation.MockItParam;
-import io.github.thebesteric.framework.mocker.annotation.MockItResponse;
+import io.github.thebesteric.framework.mocker.annotation.*;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 import io.github.thebesteric.framework.mocker.core.filler.ComplexAttributeFiller;
 import org.apache.commons.lang3.StringUtils;
@@ -82,7 +79,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
 
         // populate random value for unused fields
         for (Field field : returnCassType.getDeclaredFields()) {
-            if (!usedFieldClasses.contains(field.getType())) {
+            if (!usedFieldClasses.contains(field.getType())  && !field.isAnnotationPresent(MockIgnore.class)) {
                 mockInstance = populateInstance(mockInstance, field, null);
             }
         }
@@ -92,7 +89,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
 
     @Override
     public int order() {
-        return 3;
+        return InstanceProcessor.CONFIG_PROCESSOR_ORDER;
     }
 
 }

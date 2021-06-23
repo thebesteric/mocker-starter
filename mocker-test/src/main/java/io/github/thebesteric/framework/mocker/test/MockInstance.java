@@ -3,6 +3,9 @@ package io.github.thebesteric.framework.mocker.test;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * MockInstance
  *
@@ -17,10 +20,24 @@ public class MockInstance {
 
     private Object instance;
     private Class<?> clazz;
-    private Object returnValue;
+    private MethodHolder methodHolder;
+    private Queue<Object> returnValues;
     private Throwable returnThrowable;
-
     private MockerInterceptor mockerInterceptor;
-
     private boolean executedWhen = false;
+
+    public synchronized void setReturnValue(Object returnValue) {
+        if (returnValues == null) {
+            returnValues = new ConcurrentLinkedQueue<>();
+        }
+        returnValues.offer(returnValue);
+    }
+
+    public synchronized Object getReturnValue() {
+        Object obj = null;
+        if (returnValues != null) {
+            obj = returnValues.poll();
+        }
+        return obj;
+    }
 }

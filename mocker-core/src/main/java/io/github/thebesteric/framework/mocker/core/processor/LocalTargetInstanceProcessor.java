@@ -52,6 +52,6 @@ public class LocalTargetInstanceProcessor implements InstanceProcessor {
 
     @Override
     public int order() {
-        return 2;
+        return InstanceProcessor.LOCAL_PROCESSOR_ORDER;
     }
 }

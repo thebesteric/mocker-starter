@@ -45,7 +45,7 @@ public class RemoteTargetInstanceProcessor implements InstanceProcessor {
 
     @Override
     public int order() {
-        return 2;
+        return InstanceProcessor.REMOTE_PROCESSOR_ORDER;
     }
 
     private String protocol(String target) {

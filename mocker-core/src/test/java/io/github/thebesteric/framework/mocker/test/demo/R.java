@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.test.demo;
 
+import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,7 +18,8 @@ public class R {
     private int code;
     private Object data;
     private String message;
-    private long timestamp;
+    @MockIgnore
+    private Long timestamp;
 
     public static R success() {
         return R.builder().code(200).message("succeed").build();

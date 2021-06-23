@@ -6,17 +6,18 @@
     <parent>
         <artifactId>mocker-starter</artifactId>
         <groupId>io.github.thebesteric.framework.mocker</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mocker-test</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
 
         <dependency>
-            <groupId>io.github.thebesteric.framework</groupId>
+            <groupId>io.github.thebesteric.framework.mocker</groupId>
             <artifactId>mocker-commons</artifactId>
             <version>${project.version}</version>
         </dependency>

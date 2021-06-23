@@ -19,8 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@DisplayName("Mocker Test Case")
-public class MockerTest {
+@DisplayName("Mocker Core Test Case")
+public class MockerCoreTest {
 
     @Autowired
     private ApplicationContext applicationContext;

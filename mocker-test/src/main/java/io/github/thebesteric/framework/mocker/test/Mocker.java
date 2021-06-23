@@ -6,6 +6,7 @@ import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 /**
  * Mocker
@@ -44,9 +45,10 @@ public class Mocker {
         return mocker;
     }
 
-    public void thenReturn(Object returnValue) {
+    public Mocker thenReturn(Object returnValue) {
         checkWhenStep();
         threadLocal.get().setReturnValue(returnValue);
+        return mocker;
     }
 
     public void thenThrow(Throwable throwable) {
@@ -65,6 +67,9 @@ public class Mocker {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(mockClass);
         enhancer.setCallback(interceptor);
+        if (mockClass.isInterface()) {
+            return (T) enhancer.create();
+        }
         Constructor<?> constructor = ReflectUtils.determineConstructor(mockClass);
         Class<?>[] argumentTypes = ReflectUtils.argumentTypes(constructor);
         if (argumentTypes != null) {

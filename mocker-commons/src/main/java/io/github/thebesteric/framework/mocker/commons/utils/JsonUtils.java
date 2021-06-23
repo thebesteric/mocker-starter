@@ -37,8 +37,10 @@ public class JsonUtils {
         str = matcher.replaceAll("");
         str = str.replaceAll("\"(\\w+)\"", "$1");
         str = str.replace("{", "{\"");
+        str = str.replace("[", "[\"");
         str = str.replace(":", "\":\"");
         str = str.replace(",", "\",\"");
+        str = str.replace("]", "\"]");
         str = str.replace("}", "\"}");
         return str;
     }
@@ -48,6 +50,7 @@ public class JsonUtils {
     }
 
     public static Object deepCopy(Object obj) {
+        // non-args constructor are not supported by jackson, so we used gson instead
         return gson.fromJson(gson.toJson(obj), obj.getClass());
     }
 
