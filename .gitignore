@@ -25,7 +25,7 @@ hs_err_pid*
 
 /.idea/
 /target/*
-/mocker-core/target/
+/mocker-core/target/*
 /mocker-commons/target/*
 /mocker-test/target/*
 
