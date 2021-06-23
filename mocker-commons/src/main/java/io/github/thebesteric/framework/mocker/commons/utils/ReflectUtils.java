@@ -148,14 +148,17 @@ public class ReflectUtils {
 
     public static Constructor<?> determineConstructor(Class<?> clazz) {
         Constructor<?>[] rawCandidates = clazz.getDeclaredConstructors();
-        List<Constructor<?>> constructors = Arrays.asList(rawCandidates);
-        constructors.sort((o1, o2) -> {
-            if (o1.getParameterCount() != o2.getParameterCount()) {
-                return o1.getParameterCount() > o2.getParameterCount() ? 1 : -1;
-            }
-            return 0;
-        });
-        return constructors.get(0);
+        if(rawCandidates.length != 0) {
+            List<Constructor<?>> constructors = Arrays.asList(rawCandidates);
+            constructors.sort((o1, o2) -> {
+                if (o1.getParameterCount() != o2.getParameterCount()) {
+                    return o1.getParameterCount() > o2.getParameterCount() ? 1 : -1;
+                }
+                return 0;
+            });
+            return constructors.get(0);
+        }
+        return null;
     }
 
     public static String getProjectPath() {

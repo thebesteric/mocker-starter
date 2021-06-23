@@ -25,8 +25,12 @@ hs_err_pid*
 
 /.idea/
 /target/*
-/mocker-core/target/
+/mocker-core/target/*
 /mocker-commons/target/*
 /mocker-test/target/*
 
 
+/mocker-commons/mocker-commons.iml
+/mocker-core/mocker-core.iml
+/mocker-starter.iml
+/mocker-test/mocker-test.iml

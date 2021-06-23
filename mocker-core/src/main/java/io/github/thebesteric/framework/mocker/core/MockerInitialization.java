@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core;
 
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,9 +10,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.lang.NonNull;
-import org.springframework.util.ClassUtils;
-
-import java.util.Objects;
 
 /**
  * MockerInitialization
@@ -61,15 +59,7 @@ public abstract class MockerInitialization implements SmartLifecycle, Applicatio
     }
 
     public String getProjectPath() {
-        ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
-        if (defaultClassLoader != null) {
-            String path = Objects.requireNonNull(defaultClassLoader.getResource("")).getPath();
-            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                path = path.substring(1);
-            }
-            return path.replaceAll("%20", " ").replace("target/classes/", "");
-        }
-        return null;
+        return ReflectUtils.getProjectPath();
     }
 
     @Override

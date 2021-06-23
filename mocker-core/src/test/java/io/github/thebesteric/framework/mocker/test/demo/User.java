@@ -4,6 +4,7 @@ import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-public class User {
+public class User extends HashMap<String, String> {
     private String username;
     private String password;
     @MockIgnore
