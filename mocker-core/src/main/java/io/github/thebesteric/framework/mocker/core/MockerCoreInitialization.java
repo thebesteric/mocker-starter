@@ -21,9 +21,9 @@ public class MockerCoreInitialization extends MockerInitialization {
     @Override
     public void start() {
         if (!properties.isEnable()) {
-            log.info("MOCKER is disabled");
+            log.info("Mocker is disabled");
             return;
         }
-        log.info("MOCKER is running");
+        log.info("Mocker is running");
     }
 }

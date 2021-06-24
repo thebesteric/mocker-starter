@@ -6,7 +6,7 @@
     <parent>
         <artifactId>mocker-starter</artifactId>
         <groupId>io.github.thebesteric.framework.mocker</groupId>
-        <version>0.0.3</version>
+        <version>0.0.4-alpha</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,6 +16,7 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/io.github.thebesteric.framework.mocker/mocker-commons -->
         <dependency>
             <groupId>io.github.thebesteric.framework.mocker</groupId>
             <artifactId>mocker-commons</artifactId>

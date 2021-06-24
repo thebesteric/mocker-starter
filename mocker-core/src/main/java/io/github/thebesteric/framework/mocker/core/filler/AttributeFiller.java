@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -55,7 +56,8 @@ public interface AttributeFiller {
         do {
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (match(field.getType()) && !field.isAnnotationPresent(MockIgnore.class)) {
+                if (match(field.getType()) && !ReflectUtils.isFinal(field)
+                        && !field.isAnnotationPresent(MockIgnore.class)) {
                     field.setAccessible(true);
                     doPopulateInstance(mockInstance, field);
                 }

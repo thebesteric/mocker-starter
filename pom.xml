@@ -8,7 +8,7 @@
     <groupId>io.github.thebesteric.framework.mocker</groupId>
     <artifactId>mocker-starter</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.3</version>
+    <version>0.0.4-alpha</version>
 
     <name>mocker starter</name>
     <url>https://github.com/thebesteric/mocker-starter</url>
@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Apache-2.0 License</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>

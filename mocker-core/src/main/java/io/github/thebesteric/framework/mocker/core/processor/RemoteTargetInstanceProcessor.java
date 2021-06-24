@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
+import io.github.thebesteric.framework.mocker.commons.exception.JsonParseException;
 import io.github.thebesteric.framework.mocker.commons.utils.HttpUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,13 @@ public class RemoteTargetInstanceProcessor implements InstanceProcessor {
         if (StringUtils.isNotEmpty(protocol)) {
             HttpUtils.ResponseEntry responseEntry = httpUtils.doGet(target);
             if (responseEntry.getCode() == HttpStatus.SC_OK) {
-                return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(responseEntry.getHttpStr()), method.getReturnType());
+                String httpStr = responseEntry.getHttpStr();
+                Class<?> returnType = method.getReturnType();
+                try {
+                    return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(httpStr), returnType);
+                } catch (Throwable throwable) {
+                    throw new JsonParseException(httpStr + " cannot cast to " + returnType.getName());
+                }
             }
         }
         return null;
