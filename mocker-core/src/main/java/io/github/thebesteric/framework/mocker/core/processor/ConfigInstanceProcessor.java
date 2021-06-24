@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.*;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 import io.github.thebesteric.framework.mocker.core.filler.ComplexAttributeFiller;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +44,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
             String key = mockItParam.key();
             for (Field field : returnCassType.getDeclaredFields()) {
                 Object value;
-                if (field.getName().equals(key)) {
+                if (!ReflectUtils.isFinal(field) && field.getName().equals(key)) {
                     // process if simple attributes
                     value = mockItParam.value();
                     // process if complex attributes
@@ -79,7 +80,8 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
 
         // populate random value for unused fields
         for (Field field : returnCassType.getDeclaredFields()) {
-            if (!usedFieldClasses.contains(field.getType())  && !field.isAnnotationPresent(MockIgnore.class)) {
+            if (!ReflectUtils.isFinal(field) && !usedFieldClasses.contains(field.getType())
+                    && !field.isAnnotationPresent(MockIgnore.class)) {
                 mockInstance = populateInstance(mockInstance, field, null);
             }
         }

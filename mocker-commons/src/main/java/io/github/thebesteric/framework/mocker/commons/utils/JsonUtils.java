@@ -36,12 +36,14 @@ public class JsonUtils {
         Matcher matcher = PATTERN.matcher(str);
         str = matcher.replaceAll("");
         str = str.replaceAll("\"(\\w+)\"", "$1");
-        str = str.replace("{", "{\"");
-        str = str.replace("[", "[\"");
         str = str.replace(":", "\":\"");
         str = str.replace(",", "\",\"");
-        str = str.replace("]", "\"]");
+        str = str.replace("\"[", "[");
+        str = str.replace("]\"", "]");
+        str = str.replace("{", "{\"");
         str = str.replace("}", "\"}");
+        str = str.replace("\"{", "{");
+        str = str.replace("}\"", "}");
         return str;
     }
 

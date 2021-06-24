@@ -52,9 +52,9 @@ public class TestController extends BaseController {
         return USERS.get(3);
     }
 
-    @MockIt(target = "https://yapi.shuinfo.com/mock/398/breast-coach-api/test")
+    @MockIt(target = "http://10.92.194.44:3000/mock/55/ec/store/getAllMopCity")
     @GetMapping("/remoteTarget")
-    public User remoteTarget() {
+    public Object remoteTarget() {
         return USERS.get(3);
     }
 

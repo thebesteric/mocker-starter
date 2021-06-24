@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
-import io.github.thebesteric.framework.mocker.core.exception.JsonParseException;
+import io.github.thebesteric.framework.mocker.commons.exception.JsonParseException;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 

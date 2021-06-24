@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.core.exception;
+package io.github.thebesteric.framework.mocker.commons.exception;
 
 
 import lombok.NoArgsConstructor;
