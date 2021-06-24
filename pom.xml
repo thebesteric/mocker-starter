@@ -8,7 +8,7 @@
     <groupId>io.github.thebesteric.framework.mocker</groupId>
     <artifactId>mocker-starter</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.3</version>
+    <version>0.0.3-alpha</version>
 
     <name>mocker starter</name>
     <url>https://github.com/thebesteric/mocker-starter</url>
@@ -145,6 +145,19 @@
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
             <type>maven-plugin</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sonatype.sisu</groupId>
+                    <artifactId>sisu-guice</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.sonatype.sisu/sisu-guice -->
+        <dependency>
+            <groupId>org.sonatype.sisu</groupId>
+            <artifactId>sisu-guice</artifactId>
+            <version>4.2.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
@@ -218,6 +231,26 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.9.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils-core -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.8.3</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils-core -->
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils-core</artifactId>
+                <version>1.8.3</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
