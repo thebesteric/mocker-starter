@@ -56,11 +56,10 @@ public interface AttributeFiller {
         do {
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (match(field.getType()) && !field.isAnnotationPresent(MockIgnore.class)) {
+                if (match(field.getType()) && !ReflectUtils.isFinal(field)
+                        && !field.isAnnotationPresent(MockIgnore.class)) {
                     field.setAccessible(true);
-                    if (!ReflectUtils.isFinal(field)) {
-                        doPopulateInstance(mockInstance, field);
-                    }
+                    doPopulateInstance(mockInstance, field);
                 }
             }
             currentClass = currentClass.getSuperclass();

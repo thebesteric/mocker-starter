@@ -1,11 +1,14 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.commons.utils.CollectionUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ComplexAttributeFiller
@@ -77,9 +80,18 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
     }
 
     private Object populate(Class<?> clazz, Object instance, Object value) throws Throwable {
-        Field[] declaredFields = clazz.getDeclaredFields();
-        if (declaredFields.length > 0) {
-            for (Field objectField : declaredFields) {
+        List<Field> allFields = CollectionUtils.arrayToList(clazz.getDeclaredFields());
+
+        // Find all fields in the subclass and superclass
+        Class<?> currentClass = clazz.getSuperclass();
+        while (currentClass != null && currentClass != Object.class) {
+            allFields.addAll(Arrays.asList(currentClass.getDeclaredFields()));
+            currentClass = currentClass.getSuperclass();
+        }
+
+        // Assign the fields in turn
+        if (allFields.size() > 0) {
+            for (Field objectField : allFields) {
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
                     if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {
                         objectField.setAccessible(true);
