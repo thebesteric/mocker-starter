@@ -133,6 +133,11 @@ public class ReflectUtils {
         return fieldNames;
     }
 
+    public static Object getFieldValue(Field field, Object object) throws IllegalAccessException {
+        field.setAccessible(true);
+        return field.get(object);
+    }
+
     public static boolean isAnnotationPresent(Class<?> objectClass, Class<? extends Annotation> annotationClass) {
         if (objectClass.isAnnotationPresent(annotationClass)) {
             return true;
@@ -146,9 +151,17 @@ public class ReflectUtils {
         return false;
     }
 
+    public static Constructor<?> getDefaultConstructor(Class<?> clazz) {
+        Constructor<?> constructor = determineConstructor(clazz);
+        if (constructor != null && constructor.getParameterTypes().length == 0) {
+            return constructor;
+        }
+        return null;
+    }
+
     public static Constructor<?> determineConstructor(Class<?> clazz) {
         Constructor<?>[] rawCandidates = clazz.getDeclaredConstructors();
-        if(rawCandidates.length != 0) {
+        if (rawCandidates.length != 0) {
             List<Constructor<?>> constructors = Arrays.asList(rawCandidates);
             constructors.sort((o1, o2) -> {
                 if (o1.getParameterCount() != o2.getParameterCount()) {
@@ -174,7 +187,7 @@ public class ReflectUtils {
     }
 
 
-    public static Object newInstance(Constructor<?> constructor) throws Throwable {
+    public static Object newInstance(Constructor<?> constructor) throws Exception {
         constructor.setAccessible(true);
         Parameter[] parameters = constructor.getParameters();
         Object[] args = new Object[parameters.length];
