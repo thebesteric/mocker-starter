@@ -87,4 +87,5 @@ sourceflag:
   mocker:
     enable: true
     revision-times: 2
+    local-path: "/mock"
 ```
