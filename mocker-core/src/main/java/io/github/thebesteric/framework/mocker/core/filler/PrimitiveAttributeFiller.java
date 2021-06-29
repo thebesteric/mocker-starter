@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
@@ -22,8 +24,10 @@ public class PrimitiveAttributeFiller extends AbstractAttributeFiller {
 
     @Override
     public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
-        Class<?> fieldClassType = field.getType();
-        field.set(mockInstance, mockValue(fieldClassType, mockInstance, value));
+        if (!ReflectUtils.isFinal(field)) {
+            Class<?> fieldClassType = field.getType();
+            field.set(mockInstance, mockValue(fieldClassType, mockInstance, value));
+        }
     }
 
     @Override
