@@ -58,7 +58,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
     @Override
     public Object mockValue(Class<?> clazz, Object mockInstance, Object value) throws Throwable {
         Object instance = mockInstance;
-        // create new instance if not same type object
+        // Create new instance if not same type object
         if (clazz != mockInstance.getClass() && value == null) {
             Constructor<?> constructor = ReflectUtils.determineConstructor(clazz);
             if (constructor != null) {
@@ -75,6 +75,10 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
                 return instance;
             }
         }
+        // Processes arguments of primitive and String types
+        if (value != null && (value.getClass().isPrimitive() || value.getClass() == String.class)) {
+            clazz = value.getClass();
+        }
         instance = populate(clazz, instance, value);
         return instance;
     }
@@ -90,7 +94,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         }
 
         // Assign the fields in turn
-        if (allFields.size() > 0) {
+        if (allFields.size() > 0 && !clazz.isPrimitive() && clazz != String.class) {
             for (Field objectField : allFields) {
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
                     if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {

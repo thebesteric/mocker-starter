@@ -1,9 +1,9 @@
 package io.github.thebesteric.framework.mocker.core.enhancer;
 
 import io.github.thebesteric.framework.mocker.annotation.Mocker;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
 import io.github.thebesteric.framework.mocker.core.processor.InstanceProcessor;
-import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.lang.NonNull;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,10 +108,24 @@ public class MockerAnnotationEnhancer implements BeanPostProcessor {
      * @author Eric
      * @date 2021/5/26 17:58
      */
-    private Object enhancer(String beanName, Object bean, Class<?> originClass, Callback callback) {
+    private Object enhancer(String beanName, Object bean, Class<?> originClass, Callback callback) throws IllegalAccessException {
         enhancer.setSuperclass(originClass);
         enhancer.setCallback(callback);
-        Object target = enhancer.create();
+        Object target;
+        if (ReflectUtils.getDefaultConstructor(originClass) == null) {
+            List<Class<?>> argumentTypes = new ArrayList<>();
+            List<Object> arguments = new ArrayList<>();
+            for (int i = 0; i < originClass.getDeclaredFields().length; i++) {
+                Field field = originClass.getDeclaredFields()[i];
+                if (!ReflectUtils.isStatic(field) && ReflectUtils.isFinal(field)) {
+                    argumentTypes.add(field.getType());
+                    arguments.add(ReflectUtils.getFieldValue(field, bean));
+                }
+            }
+            target = enhancer.create(argumentTypes.toArray(new Class<?>[0]), arguments.toArray(new Object[0]));
+        } else {
+            target = enhancer.create();
+        }
         beanFactory.registerSingleton(beanName, copyProperties(originClass, bean, target));
         return target;
     }
