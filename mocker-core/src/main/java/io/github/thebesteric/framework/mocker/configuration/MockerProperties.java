@@ -28,4 +28,7 @@ public class MockerProperties {
     /** 列表长度 */
     private int iteratorLength = 3;
 
+    /** 本地 mock 路径前缀 */
+    private String localPath = "/mock";
+
 }
