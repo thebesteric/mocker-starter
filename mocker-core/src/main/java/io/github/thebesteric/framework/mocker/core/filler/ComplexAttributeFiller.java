@@ -26,20 +26,19 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         return isComplex(clazz) && !isArray(clazz);
     }
 
-
     @Override
     public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
 
         // control the number of recursions
         Object currentObject = value;
         if (currentObject == null) {
-            int recurseTimes = getRecurseTimes(mockInstance, field);
+            int recurseTimes = getInstanceFieldRecurseTimes(mockInstance, field);
             // recursion times
             if (recurseTimes++ == getProperties().getRevisionTimes()) {
-                RECURSION_TIMES.remove(mockInstance);
+                RECURSION_INSTANCE_FIELD_MAP.remove(mockInstance);
                 return;
             }
-            addRecurseTimes(mockInstance, field, recurseTimes);
+            addInstanceFieldRecurseTimes(mockInstance, field, recurseTimes);
         }
 
         // populate attributes
@@ -51,14 +50,17 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         }
 
         field.set(mockInstance, currentObject);
+
+        // need to clear the recursion times in finally
+        clearMockInstanceRecurseTimes();
     }
 
-    private static int times = 0;
+    private static int mockInstanceRecurseTimes = 0;
 
     @Override
     public Object mockValue(Class<?> clazz, Object mockInstance, Object value) throws Throwable {
         Object instance = mockInstance;
-        // create new instance if not same type object
+        // Create new instance if not same type object
         if (clazz != mockInstance.getClass() && value == null) {
             Constructor<?> constructor = ReflectUtils.determineConstructor(clazz);
             if (constructor != null) {
@@ -70,10 +72,14 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         }
         if (mockInstance == instance) {
             instance = JsonUtils.deepCopy(instance);
-            if (times++ == getProperties().getRevisionTimes()) {
-                times = 0;
+            if (mockInstanceRecurseTimes++ == getProperties().getRevisionTimes()) {
+                clearMockInstanceRecurseTimes();
                 return instance;
             }
+        }
+        // Processes arguments of primitive and String types
+        if (value != null && (value.getClass().isPrimitive() || value.getClass() == String.class)) {
+            clazz = value.getClass();
         }
         instance = populate(clazz, instance, value);
         return instance;
@@ -90,7 +96,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         }
 
         // Assign the fields in turn
-        if (allFields.size() > 0) {
+        if (allFields.size() > 0 && !clazz.isPrimitive() && clazz != String.class) {
             for (Field objectField : allFields) {
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
                     if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {
@@ -105,6 +111,10 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
             instance = populate(value.getClass(), value, null);
         }
         return instance;
+    }
+
+    public static void clearMockInstanceRecurseTimes() {
+        mockInstanceRecurseTimes = 0;
     }
 
     /**

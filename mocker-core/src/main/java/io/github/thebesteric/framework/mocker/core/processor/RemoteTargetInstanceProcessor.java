@@ -8,8 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * TargetInstanceProcessor
@@ -19,22 +17,20 @@ import java.util.List;
  * @date 2021-05-28 22:30
  * @since 1.0
  */
-public class RemoteTargetInstanceProcessor implements InstanceProcessor {
-
-    private static final List<String> REMOTE_PROTOCOL = Arrays.asList("http://", "https://");
+public class RemoteTargetInstanceProcessor extends AbstractTargetInstanceProcessor {
 
     private final HttpUtils httpUtils = HttpUtils.getInstance();
 
     @Override
     public boolean match(MockIt mockIt) {
         String target = mockIt.target();
-        return !StringUtils.isEmpty(target) && (protocol(target) != null);
+        return !StringUtils.isEmpty(target) && (remoteProtocol(target) != null);
     }
 
     @Override
     public Object doProcess(MockIt mockIt, Method method) throws Throwable {
         String target = mockIt.target();
-        String protocol = protocol(target);
+        String protocol = remoteProtocol(target);
         if (StringUtils.isNotEmpty(protocol)) {
             HttpUtils.ResponseEntry responseEntry = httpUtils.doGet(target);
             if (responseEntry.getCode() == HttpStatus.SC_OK) {
@@ -53,15 +49,6 @@ public class RemoteTargetInstanceProcessor implements InstanceProcessor {
     @Override
     public int order() {
         return InstanceProcessor.REMOTE_PROCESSOR_ORDER;
-    }
-
-    private String protocol(String target) {
-        for (String protocol : REMOTE_PROTOCOL) {
-            if (target.startsWith(protocol)) {
-                return protocol;
-            }
-        }
-        return null;
     }
 
 }

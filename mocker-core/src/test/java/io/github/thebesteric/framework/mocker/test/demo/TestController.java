@@ -1,7 +1,7 @@
 package io.github.thebesteric.framework.mocker.test.demo;
 
 import io.github.thebesteric.framework.mocker.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +21,7 @@ import java.util.Map;
 @Mocker(enable = true)
 @RestController
 @RequestMapping("/test")
+@RequiredArgsConstructor
 public class TestController extends BaseController {
 
     private static final Map<Integer, User> USERS = new HashMap<>(16);
@@ -31,8 +32,7 @@ public class TestController extends BaseController {
         USERS.put(3, new User("lucy", "888888", 19));
     }
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     @MockIt(enable = true, cache = true)
     @GetMapping("/normal")
@@ -46,7 +46,7 @@ public class TestController extends BaseController {
         return USERS.get(2);
     }
 
-    @MockIt(target = "local://demo/user.json")
+    @MockIt(target = "/user.json")
     @GetMapping("/localTarget")
     public User localTarget() {
         return USERS.get(3);

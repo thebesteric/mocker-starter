@@ -96,8 +96,8 @@ public class MockerAutoConfiguration {
     }
 
     @Bean
-    public InstanceProcessor localTargetInstanceProcessor() {
-        return new LocalTargetInstanceProcessor();
+    public InstanceProcessor localTargetInstanceProcessor(MockerProperties properties) {
+        return new LocalTargetInstanceProcessor(properties);
     }
 
     @Bean

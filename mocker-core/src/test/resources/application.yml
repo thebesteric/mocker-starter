@@ -2,3 +2,4 @@ sourceflag:
   mocker:
     enable: true
     revision-times: 1
+    local-path: "/demo/"

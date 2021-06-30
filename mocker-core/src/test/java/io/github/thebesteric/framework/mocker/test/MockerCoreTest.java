@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.test.demo.TestController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,58 +29,51 @@ public class MockerCoreTest {
 
     @Test
     @DisplayName("testNormal")
-    public void testNormal() {
+    public void testNormal() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.normal());
-        System.out.println(testController.normal());
+        System.out.println(JsonUtils.toJsonStr(testController.normal()));
     }
 
     @Test
     @DisplayName("testMock")
-    public void testMock() {
+    public void testMock() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.mock());
-        System.out.println(testController.mock());
+        System.out.println(JsonUtils.toJsonStr(testController.mock()));
     }
 
     @Test
     @DisplayName("testLocalTarget")
-    public void testLocalTarget() {
+    public void testLocalTarget() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.localTarget());
-        System.out.println(testController.localTarget());
+        System.out.println(JsonUtils.toJsonStr(testController.localTarget()));
     }
 
     @Test
     @DisplayName("testRemoteTarget")
-    public void testRemoteTarget() {
+    public void testRemoteTarget() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.remoteTarget());
-        System.out.println(testController.remoteTarget());
+        System.out.println(JsonUtils.toJsonStr(testController.remoteTarget()));
     }
 
     @Test
     @DisplayName("testConfigSimple")
-    public void testConfigSimple() {
+    public void testConfigSimple() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.configSimple());
-        System.out.println(testController.configSimple());
+        System.out.println(JsonUtils.toJsonStr(testController.configSimple()));
     }
 
     @Test
     @DisplayName("testConfigComplex")
-    public void testConfigComplex() {
+    public void testConfigComplex() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.configComplex());
-        System.out.println(testController.configComplex());
+        System.out.println(JsonUtils.toJsonStr(testController.configComplex()));
     }
 
     @Test
     @DisplayName("testConfigDifficult")
-    public void testConfigDifficult() {
+    public void testConfigDifficult() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
-        System.out.println(testController.configDifficult());
-        System.out.println(testController.configDifficult());
+        System.out.println(JsonUtils.toJsonStr(testController.configDifficult()));
     }
 
 }
