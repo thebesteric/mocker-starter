@@ -24,17 +24,17 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
 
     protected ApplicationContext applicationContext;
 
-    protected static final Map<Object, Map<Field, Integer>> RECURSION_TIMES = new HashMap<>();
+    protected static final Map<Object, Map<Field, Integer>> RECURSION_INSTANCE_FIELD_MAP = new HashMap<>();
 
-    protected int getRecurseTimes(Object mockInstance, Field field) {
-        Map<Field, Integer> fieldMap = RECURSION_TIMES.getOrDefault(mockInstance, new HashMap<>(16));
+    protected int getInstanceFieldRecurseTimes(Object mockInstance, Field field) {
+        Map<Field, Integer> fieldMap = RECURSION_INSTANCE_FIELD_MAP.getOrDefault(mockInstance, new HashMap<>(16));
         return fieldMap.getOrDefault(field, 0);
     }
 
-    protected void addRecurseTimes(Object mockInstance, Field field, int recurseTimes) {
-        Map<Field, Integer> fieldMap = RECURSION_TIMES.getOrDefault(mockInstance, new HashMap<>(16));
+    protected void addInstanceFieldRecurseTimes(Object mockInstance, Field field, int recurseTimes) {
+        Map<Field, Integer> fieldMap = RECURSION_INSTANCE_FIELD_MAP.getOrDefault(mockInstance, new HashMap<>(16));
         fieldMap.put(field, recurseTimes);
-        RECURSION_TIMES.put(mockInstance, fieldMap);
+        RECURSION_INSTANCE_FIELD_MAP.put(mockInstance, fieldMap);
     }
 
 
