@@ -59,6 +59,14 @@ public class UserController {
         return R.success(user);
     }
 
+    // 配置方式：指定返回值为数组类型，并指定返回值中相关属性对应的参数
+    @Getmapping("/getUser")
+    @MockIt(config=@MockItResponse(params={@MockItParam(key="data", clazz=User[].class)}))
+    public R getUser(String name){
+        User user = userService.getUser(name);
+        return R.success(user);
+    }
+
     // 配置方式：指定返回值类型，并指定返回值中多个相关属性对应的参数
     @Getmapping("/getUser")
     @MockIt(config=@MockItResponse(params={@MockItParam(key="data", clazz=User.class), 
