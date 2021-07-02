@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.lang.reflect.Field;
@@ -18,8 +19,8 @@ import java.lang.reflect.Field;
 public class StringAttributeFiller extends AbstractAttributeFiller {
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return ReflectUtils.isString(clazz);
+    public boolean match(ClassWarp classWarp) {
+        return ReflectUtils.isString(classWarp.getClazz());
     }
 
     @Override

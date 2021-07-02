@@ -70,6 +70,13 @@ public class MockerCoreTest {
     }
 
     @Test
+    @DisplayName("testConfigComplexArray")
+    public void testConfigComplexArray() throws JsonProcessingException {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(JsonUtils.toJsonStr(testController.configComplexArray()));
+    }
+
+    @Test
     @DisplayName("testConfigDifficult")
     public void testConfigDifficult() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);

@@ -20,6 +20,6 @@ public @interface MockItAttr {
 
     String value() default "";
 
-    Class<?> clazz() default ComplexAttributeFiller.NonValue.class;
+    Class<?> clazz() default ComplexAttributeFiller.NonType.class;
 
 }

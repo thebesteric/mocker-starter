@@ -71,7 +71,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @date 2021/5/27 18:44
      */
     public boolean isComplex(Class<?> clazz) {
-        return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonValue.class != clazz;
+        return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonType.class != clazz;
     }
 
     /**

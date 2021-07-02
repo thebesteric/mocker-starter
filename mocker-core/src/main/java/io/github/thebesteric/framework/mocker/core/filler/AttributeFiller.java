@@ -2,6 +2,7 @@ package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -21,12 +22,12 @@ public interface AttributeFiller {
     /**
      * 是否匹配
      *
-     * @param clazz 字段
+     * @param classWarp 字段
      * @return boolean
      * @author Eric
-     * @date 2021/6/1 1:47
+     * @date 2021/7/3 0:02
      */
-    boolean match(Class<?> clazz);
+    boolean match(ClassWarp classWarp);
 
     /**
      * 属性填充
@@ -56,7 +57,8 @@ public interface AttributeFiller {
         do {
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (match(field.getType()) && !ReflectUtils.isFinal(field)
+                ClassWarp classWarp = new ClassWarp(field.getType());
+                if (match(classWarp) && !ReflectUtils.isFinal(field)
                         && !field.isAnnotationPresent(MockIgnore.class)) {
                     field.setAccessible(true);
                     doPopulateInstance(mockInstance, field);

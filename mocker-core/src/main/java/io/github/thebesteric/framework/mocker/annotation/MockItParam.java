@@ -19,7 +19,7 @@ public @interface MockItParam {
 
     String value() default "";
 
-    Class<?> clazz() default ComplexAttributeFiller.NonValue.class;
+    Class<?> clazz() default ComplexAttributeFiller.NonType.class;
 
     MockItAttr[] attrs() default {};
 }

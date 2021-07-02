@@ -4,6 +4,7 @@ import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import io.github.thebesteric.framework.mocker.commons.utils.CollectionUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -22,8 +23,9 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
 
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isComplex(clazz) && !isArray(clazz);
+    public boolean match(ClassWarp classWarp) {
+        Class<?> clazz = classWarp.getClazz();
+        return isComplex(clazz) && !isArray(clazz) && !classWarp.isArray();
     }
 
     @Override
@@ -98,8 +100,9 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
         // Assign the fields in turn
         if (allFields.size() > 0 && !clazz.isPrimitive() && clazz != String.class) {
             for (Field objectField : allFields) {
+                ClassWarp classWarp = new ClassWarp(objectField.getType());
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                    if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {
+                    if (attributeFiller.match(classWarp) && !objectField.isAnnotationPresent(MockIgnore.class)) {
                         objectField.setAccessible(true);
                         Object fieldValue = objectField.get(instance);
                         attributeFiller.populateInstance(instance, objectField, fieldValue);
@@ -123,8 +126,8 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
      * @author Eric
      * @date 2021/6/1 2:27
      */
-    public static class NonValue {
-        private NonValue() {
+    public static class NonType {
+        private NonType() {
             super();
         }
     }

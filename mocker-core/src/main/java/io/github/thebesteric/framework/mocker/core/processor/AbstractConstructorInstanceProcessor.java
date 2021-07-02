@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 
@@ -38,9 +39,10 @@ public abstract class AbstractConstructorInstanceProcessor implements InstancePr
         return mockInstance;
     }
 
-    protected Object populateInstance(Object mockInstance, Field field, Object value) throws Throwable {
+    protected Object populateInstance(Object mockInstance, ClassWarp classWarp, Object value) throws Throwable {
+        Field field = classWarp.getField();
         for (AttributeFiller attributeFiller : attributeFillers) {
-            if (attributeFiller.match(field.getType())) {
+            if (attributeFiller.match(classWarp)) {
                 attributeFiller.populateInstance(mockInstance, field, value);
             }
         }

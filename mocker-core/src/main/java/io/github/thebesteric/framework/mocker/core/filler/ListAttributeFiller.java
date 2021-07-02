@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -17,8 +19,8 @@ import java.util.List;
 public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isList(clazz);
+    public boolean match(ClassWarp classWarp) {
+        return isList(classWarp.getClazz());
     }
 
     @Override
@@ -31,10 +33,11 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
             actualType = Class.forName(actualTypeArgument.getTypeName());
         }
 
+        ClassWarp classWarp = new ClassWarp(actualType);
         List<Object> list = new ArrayList<>();
         for (int i = 0; i < getProperties().getIteratorLength(); i++) {
             for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                if (attributeFiller.match(actualType)) {
+                if (attributeFiller.match(classWarp)) {
                     value = attributeFiller.mockValue(actualType, mockInstance, null);
                     break;
                 }

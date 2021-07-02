@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -18,8 +19,8 @@ import java.nio.charset.StandardCharsets;
 public class PrimitiveAttributeFiller extends AbstractAttributeFiller {
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isPrimitive(clazz);
+    public boolean match(ClassWarp classWarp) {
+        return isPrimitive(classWarp.getClazz());
     }
 
     @Override

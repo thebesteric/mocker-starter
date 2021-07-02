@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
+
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
@@ -16,8 +18,8 @@ import java.nio.charset.StandardCharsets;
 public class WarpAttributeFiller extends AbstractAttributeFiller {
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isWrap(clazz);
+    public boolean match(ClassWarp classWarp) {
+        return isWrap(classWarp.getClazz());
     }
 
     @Override

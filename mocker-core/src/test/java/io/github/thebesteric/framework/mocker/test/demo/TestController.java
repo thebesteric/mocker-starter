@@ -78,6 +78,15 @@ public class TestController extends BaseController {
     @MockIt(config = @MockItResponse(params = {
             @MockItParam(key = "code", value = "201"),
             @MockItParam(key = "message", value = "OK"),
+            @MockItParam(key = "data", clazz = Order[].class)}))
+    @GetMapping("/configComplexArray")
+    public R configComplexArray() {
+        return R.success();
+    }
+
+    @MockIt(config = @MockItResponse(params = {
+            @MockItParam(key = "code", value = "201"),
+            @MockItParam(key = "message", value = "OK"),
             @MockItParam(key = "data", clazz = User.class,
                     attrs = {@MockItAttr(key = "username", value = "me"),
                             @MockItAttr(key = "password", value = "****"),
