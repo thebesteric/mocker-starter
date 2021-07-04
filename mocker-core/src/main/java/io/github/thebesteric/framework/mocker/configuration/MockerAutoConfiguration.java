@@ -1,5 +1,7 @@
 package io.github.thebesteric.framework.mocker.configuration;
 
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.HttpUtils;
 import io.github.thebesteric.framework.mocker.core.MockerCoreInitialization;
 import io.github.thebesteric.framework.mocker.core.enhancer.MockerAnnotationEnhancer;
 import io.github.thebesteric.framework.mocker.core.filler.*;
@@ -39,6 +41,19 @@ public class MockerAutoConfiguration {
             return 0;
         });
         return new MockerAnnotationEnhancer(beanFactory, properties, instanceProcessors);
+    }
+
+    @Bean
+    public CacheUtils cacheUtils(MockerProperties properties) {
+        CacheUtils.CacheConfiguration config = CacheUtils.CacheConfiguration.builder()
+                .expireAfterWrite(properties.getCache().getExpireAfterWrite())
+                .expireAfterAccess(properties.getCache().getExpireAfterAccess()).build();
+        return new CacheUtils(config);
+    }
+
+    @Bean
+    public HttpUtils httpUtils() {
+        return HttpUtils.getInstance();
     }
 
     // for AttributeFiller
@@ -81,28 +96,28 @@ public class MockerAutoConfiguration {
     // for InstanceProcessor
 
     @Bean
-    public InstanceProcessor mockInstanceProcessor() {
-        return new MockInstanceProcessor();
+    public InstanceProcessor mockInstanceProcessor(CacheUtils cacheUtils) {
+        return new MockInstanceProcessor(cacheUtils);
     }
 
     @Bean
-    public InstanceProcessor defaultInstanceProcessor(List<AttributeFiller> attributeFillers) {
-        return new DefaultInstanceProcessor(attributeFillers);
+    public InstanceProcessor defaultInstanceProcessor(CacheUtils cacheUtils, List<AttributeFiller> attributeFillers) {
+        return new DefaultInstanceProcessor(cacheUtils, attributeFillers);
     }
 
     @Bean
-    public InstanceProcessor remoteTargetInstanceProcessor() {
-        return new RemoteTargetInstanceProcessor();
+    public InstanceProcessor remoteTargetInstanceProcessor(CacheUtils cacheUtils, HttpUtils httpUtils) {
+        return new RemoteTargetInstanceProcessor(cacheUtils, httpUtils);
     }
 
     @Bean
-    public InstanceProcessor localTargetInstanceProcessor(MockerProperties properties) {
-        return new LocalTargetInstanceProcessor(properties);
+    public InstanceProcessor localTargetInstanceProcessor(CacheUtils cacheUtils, MockerProperties properties) {
+        return new LocalTargetInstanceProcessor(cacheUtils, properties);
     }
 
     @Bean
-    public InstanceProcessor configInstanceProcessor(List<AttributeFiller> attributeFillers) {
-        return new ConfigInstanceProcessor(attributeFillers);
+    public InstanceProcessor configInstanceProcessor(CacheUtils cacheUtils, List<AttributeFiller> attributeFillers) {
+        return new ConfigInstanceProcessor(cacheUtils, attributeFillers);
     }
 
 }

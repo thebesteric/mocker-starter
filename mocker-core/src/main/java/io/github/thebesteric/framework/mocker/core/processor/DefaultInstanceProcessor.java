@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 
 import java.lang.reflect.Constructor;
@@ -19,8 +20,8 @@ import java.util.List;
  */
 public class DefaultInstanceProcessor extends AbstractConstructorInstanceProcessor {
 
-    public DefaultInstanceProcessor(List<AttributeFiller> attributeFillers) {
-        super(attributeFillers);
+    public DefaultInstanceProcessor(CacheUtils cacheUtils, List<AttributeFiller> attributeFillers) {
+        super(cacheUtils, attributeFillers);
     }
 
     @Override

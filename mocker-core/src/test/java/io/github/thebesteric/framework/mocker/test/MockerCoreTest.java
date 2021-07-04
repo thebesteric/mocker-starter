@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * ScannerTest
  *
@@ -81,6 +83,15 @@ public class MockerCoreTest {
     public void testConfigDifficult() throws JsonProcessingException {
         TestController testController = applicationContext.getBean(TestController.class);
         System.out.println(JsonUtils.toJsonStr(testController.configDifficult()));
+    }
+
+    @Test
+    @DisplayName("testCache")
+    public void testCache() throws Exception {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(JsonUtils.toJsonStr(testController.mock()));
+        TimeUnit.SECONDS.sleep(10);
+        System.out.println(JsonUtils.toJsonStr(testController.mock()));
     }
 
 }

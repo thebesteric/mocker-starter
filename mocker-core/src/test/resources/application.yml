@@ -3,3 +3,5 @@ sourceflag:
     enable: true
     revision-times: 1
     local-path: "/demo/"
+    cache:
+      expire-after-write: 10

@@ -40,7 +40,7 @@ public class TestController extends BaseController {
         return USERS.get(1);
     }
 
-    @MockIt(mock = "{username: eric, password: 123456}", cache = false)
+    @MockIt(mock = "{username: eric, password: 123456}", cache = true)
     @GetMapping("/mock")
     public User mock() {
         return USERS.get(2);

@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
@@ -16,11 +17,12 @@ import java.util.List;
  * @date 2021-05-31 23:09
  * @since 1.0
  */
-public abstract class AbstractConstructorInstanceProcessor implements InstanceProcessor {
+public abstract class AbstractConstructorInstanceProcessor extends AbstractInstanceProcessor {
 
     protected final List<AttributeFiller> attributeFillers;
 
-    public AbstractConstructorInstanceProcessor(List<AttributeFiller> attributeFillers) {
+    public AbstractConstructorInstanceProcessor(CacheUtils cacheUtils, List<AttributeFiller> attributeFillers) {
+        super(cacheUtils);
         this.attributeFillers = attributeFillers;
     }
 

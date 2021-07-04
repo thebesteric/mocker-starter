@@ -2,6 +2,11 @@ package io.github.thebesteric.framework.mocker.commons.utils;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * CacheUtils
@@ -13,22 +18,51 @@ import com.github.benmanes.caffeine.cache.Caffeine;
  */
 public class CacheUtils {
 
-    public static Cache<Object, Object> CACHE;
+    public Cache<Object, Object> cache;
 
-    static {
-        CACHE = Caffeine.newBuilder().softValues().build();
+    public CacheUtils() {
+        this(CacheConfiguration.builder().build());
     }
 
-    public static void put(Object key, Object value) {
-        CACHE.put(key, value);
+    public CacheUtils(CacheConfiguration configuration) {
+        Caffeine<Object, Object> caffeine = Caffeine.newBuilder().softValues();
+        if (configuration.getExpireAfterWrite() > 0) {
+            caffeine.expireAfterWrite(configuration.getExpireAfterWrite(), TimeUnit.SECONDS);
+        }
+        if (configuration.getExpireAfterAccess() > 0) {
+            caffeine.expireAfterAccess(configuration.getExpireAfterAccess(), TimeUnit.SECONDS);
+        }
+        cache = caffeine.build();
     }
 
-    public static Object get(Object key) {
-        return CACHE.getIfPresent(key);
+    public void put(Object key, Object value) {
+        cache.put(key, value);
     }
 
-    public static void clean() {
-        CACHE.invalidateAll();
+    public Object get(Object key) {
+        return cache.getIfPresent(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T get(Object key, Class<T> clazz) {
+        return (T) cache.getIfPresent(key);
+    }
+
+    public void clean() {
+        cache.invalidateAll();
+    }
+
+    @Builder
+    @Setter
+    @Getter
+    public static class CacheConfiguration {
+        /** 最后一次写操作后经过指定时间过期 */
+        @Builder.Default
+        private int expireAfterWrite = 600;
+
+        /** 最后一次读或写操作后经过指定时间过期 */
+        @Builder.Default
+        private int expireAfterAccess = 600;
     }
 
 }

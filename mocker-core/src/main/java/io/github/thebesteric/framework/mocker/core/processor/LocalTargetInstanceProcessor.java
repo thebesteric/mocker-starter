@@ -1,9 +1,9 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -21,10 +21,14 @@ import java.lang.reflect.Method;
  * @date 2021-05-28 22:31
  * @since 1.0
  */
-@RequiredArgsConstructor
 public class LocalTargetInstanceProcessor extends AbstractTargetInstanceProcessor {
 
     private final MockerProperties properties;
+
+    public LocalTargetInstanceProcessor(CacheUtils cacheUtils, MockerProperties properties) {
+        super(cacheUtils);
+        this.properties = properties;
+    }
 
     @Override
     public boolean match(MockIt mockIt) {

@@ -31,4 +31,17 @@ public class MockerProperties {
     /** 本地 mock 路径前缀 */
     private String localPath = "/mock";
 
+    /** 缓存设置 */
+    private Cache cache = new Cache();
+
+    @Getter
+    @Setter
+    public static class Cache {
+        /** 最后一次写操作后经过指定时间过期 */
+        private int expireAfterWrite = 600;
+
+        /** 最后一次读或写操作后经过指定时间过期 */
+        private int expireAfterAccess = 600;
+    }
+
 }

@@ -2,6 +2,7 @@ package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
 import io.github.thebesteric.framework.mocker.commons.exception.JsonParseException;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.HttpUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,12 @@ import java.lang.reflect.Method;
  */
 public class RemoteTargetInstanceProcessor extends AbstractTargetInstanceProcessor {
 
-    private final HttpUtils httpUtils = HttpUtils.getInstance();
+    private final HttpUtils httpUtils;
+
+    public RemoteTargetInstanceProcessor(CacheUtils cacheUtils, HttpUtils httpUtils) {
+        super(cacheUtils);
+        this.httpUtils = HttpUtils.getInstance();
+    }
 
     @Override
     public boolean match(MockIt mockIt) {
