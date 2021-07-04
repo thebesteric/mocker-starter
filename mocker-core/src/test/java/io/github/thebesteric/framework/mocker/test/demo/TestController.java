@@ -69,7 +69,7 @@ public class TestController extends BaseController {
     @MockIt(config = @MockItResponse(params = {
             @MockItParam(key = "code", value = "201"),
             @MockItParam(key = "message", value = "OK"),
-            @MockItParam(key = "data", clazz = MopStoreListResponse.class)}))
+            @MockItParam(key = "data", clazz = User.class)}))
     @GetMapping("/configComplex")
     public R configComplex() {
         return R.success();

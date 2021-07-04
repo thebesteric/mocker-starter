@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.test.demo;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,12 +21,17 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class User {
+    @MockProp("eric")
     private String username;
+    @MockProp("888888")
     private String password;
     @MockIgnore
     private Integer age;
     private double x;
+    @MockProp("3.1415926")
     private Float y;
+    @MockProp("3.1415926")
+    private Double pi;
     private User u;
     private Order o;
     private String[] arr;

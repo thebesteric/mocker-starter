@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
@@ -61,7 +62,12 @@ public interface AttributeFiller {
                 if (match(classWarp) && !ReflectUtils.isFinal(field)
                         && !field.isAnnotationPresent(MockIgnore.class)) {
                     field.setAccessible(true);
-                    doPopulateInstance(mockInstance, field);
+                    if (field.isAnnotationPresent(MockProp.class)) {
+                        MockProp mockProp = field.getAnnotation(MockProp.class);
+                        doPopulateInstance(mockInstance, field, mockProp.value());
+                    } else {
+                        doPopulateInstance(mockInstance, field);
+                    }
                 }
             }
             currentClass = currentClass.getSuperclass();
