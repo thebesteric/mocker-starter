@@ -27,7 +27,7 @@ public class User {
     private String password;
     @MockIgnore
     private Integer age;
-    private double x;
+    private double x = 1.11;
     @MockProp("3.1415926")
     private Float y;
     @MockProp("3.1415926")

@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.test.demo;
 
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import lombok.Data;
 
 /**
@@ -13,5 +14,6 @@ import lombok.Data;
 @Data
 public class Order {
     private Integer id;
+    @MockProp("my-order")
     private String name;
 }
