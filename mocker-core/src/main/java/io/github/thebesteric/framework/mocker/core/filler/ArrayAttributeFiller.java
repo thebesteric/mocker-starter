@@ -1,10 +1,12 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,10 +46,47 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
             RECURSION_INSTANCE_FIELD_MAP.put(mockInstance, fieldMap);
         }
 
+        Object newArray;
+        if (field.isAnnotationPresent(MockProp.class)
+                && (isPrimitive(componentClassType) || isWrap(componentClassType) || isString(componentClassType))) {
+            MockProp mockProp = field.getAnnotation(MockProp.class);
+            newArray = mockPropValue(componentClassType, mockProp.value());
+            field.set(mockInstance, newArray);
+        } else {
+            newArray = mockValue(componentClassType, mockInstance, value);
+            field.set(mockInstance, value != null && componentClassType != null ? value : newArray);
+        }
 
-        Object newArray = mockValue(componentClassType, mockInstance, value);
-        field.set(mockInstance, value != null && componentClassType != null ? value : newArray);
         classWarp = null;
+    }
+
+    public Object mockPropValue(Class<?> clazz, String[] arr) throws Throwable {
+        Object newArray = Array.newInstance(clazz, arr.length);
+        Object[] objects = null;
+        if (clazz == Integer.class || clazz == int.class) {
+            objects = Arrays.stream(arr).map(Integer::parseInt).toArray();
+        } else if (clazz == Byte.class || clazz == byte.class) {
+            objects = Arrays.stream(arr).map(Byte::parseByte).toArray();
+        } else if (clazz == Short.class || clazz == short.class) {
+            objects = Arrays.stream(arr).map(Short::parseShort).toArray();
+        } else if (clazz == Long.class || clazz == long.class) {
+            objects = Arrays.stream(arr).map(Long::parseLong).toArray();
+        } else if (clazz == Float.class || clazz == float.class) {
+            objects = Arrays.stream(arr).map(Float::parseFloat).toArray();
+        } else if (clazz == Double.class || clazz == double.class) {
+            objects = Arrays.stream(arr).map(Double::parseDouble).toArray();
+        } else if (clazz == Boolean.class || clazz == boolean.class) {
+            objects = Arrays.stream(arr).map(Boolean::parseBoolean).toArray();
+        }
+
+        if (objects != null) {
+            for (int i = 0; i < objects.length; i++) {
+                Array.set(newArray, i, objects[i]);
+            }
+            return newArray;
+        }
+
+        return arr;
     }
 
     @Override

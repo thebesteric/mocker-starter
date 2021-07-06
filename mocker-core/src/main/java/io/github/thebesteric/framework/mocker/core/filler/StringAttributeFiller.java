@@ -30,7 +30,7 @@ public class StringAttributeFiller extends AbstractAttributeFiller {
     }
 
     @Override
-    public Object mockValue(Class<?> clazz, Object instance, Object value) {
+    public Object doMockValue(Class<?> clazz, Object instance, String value) {
         return value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4);
     }
 }

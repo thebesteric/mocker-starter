@@ -32,25 +32,24 @@ public class PrimitiveAttributeFiller extends AbstractAttributeFiller {
     }
 
     @Override
-    public Object mockValue(Class<?> fieldClassType, Object instance, Object value) {
-        String strValue = String.valueOf(value);
+    public Object doMockValue(Class<?> fieldClassType, Object instance, String value) {
         if (fieldClassType == char.class) {
-            return value != null ? strValue.charAt(0) : '0';
+            return value != null ? value.charAt(0) : '0';
         } else if (fieldClassType == byte.class) {
-            return value != null ? strValue.getBytes(StandardCharsets.UTF_8)[0] : RANDOM.nextInt() + 1;
+            return value != null ? value.getBytes(StandardCharsets.UTF_8)[0] : RANDOM.nextInt() + 1;
         } else if (fieldClassType == short.class) {
-            return value != null ? Short.parseShort(strValue) : RANDOM.nextInt(100) + 1;
+            return value != null ? Short.parseShort(value) : RANDOM.nextInt(100) + 1;
         } else if (fieldClassType == int.class) {
-            return value != null ? Integer.parseInt(strValue) : RANDOM.nextInt();
+            return value != null ? Integer.parseInt(value) : RANDOM.nextInt();
         } else if (fieldClassType == long.class) {
-            return value != null ? Long.parseLong(strValue) : RANDOM.nextLong();
+            return value != null ? Long.parseLong(value) : RANDOM.nextLong();
         } else if (fieldClassType == float.class) {
-            return value != null ? Float.parseFloat(strValue) : RANDOM.nextFloat() * 100;
+            return value != null ? Float.parseFloat(value) : RANDOM.nextFloat() * 100;
         } else if (fieldClassType == double.class) {
-            return value != null ? Double.parseDouble(strValue) : RANDOM.nextDouble() * 100;
+            return value != null ? Double.parseDouble(value) : RANDOM.nextDouble() * 100;
         } else if (fieldClassType == boolean.class) {
-            return value != null ? Boolean.parseBoolean(strValue) : RANDOM.nextBoolean();
+            return value != null ? Boolean.parseBoolean(value) : RANDOM.nextBoolean();
         }
-        return strValue;
+        return value;
     }
 }

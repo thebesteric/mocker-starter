@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
@@ -34,17 +35,45 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
         }
 
         ClassWarp classWarp = new ClassWarp(actualType);
-        List<Object> list = new ArrayList<>();
-        for (int i = 0; i < getProperties().getIteratorLength(); i++) {
-            for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                if (attributeFiller.match(classWarp)) {
-                    value = attributeFiller.mockValue(actualType, mockInstance, null);
-                    break;
-                }
-            }
-            list.add(value);
-        }
 
+        List<Object> list = new ArrayList<>();
+        if (field.isAnnotationPresent(MockProp.class) && (isWrap(actualType) || isString(actualType))) {
+            MockProp mockProp = field.getAnnotation(MockProp.class);
+            String[] valueArr = mockProp.value();
+            for (String str : valueArr) {
+                list.add(mockPropValue(actualType, str));
+            }
+        } else {
+            for (int i = 0; i < getProperties().getIteratorLength(); i++) {
+                for (AttributeFiller attributeFiller : getAttributeFillers()) {
+                    if (attributeFiller.match(classWarp)) {
+                        value = attributeFiller.mockValue(actualType, mockInstance, null);
+                        break;
+                    }
+                }
+                list.add(value);
+            }
+        }
         field.set(mockInstance, list);
+    }
+
+    public Object mockPropValue(Class<?> clazz, String value) throws Throwable {
+        Object object = value;
+        if (clazz == Byte.class || clazz == byte.class) {
+            object = Byte.parseByte(value);
+        } else if (clazz == Short.class || clazz == short.class) {
+            object = Short.parseShort(value);
+        } else if (clazz == Integer.class || clazz == int.class) {
+            object = Integer.parseInt(value);
+        } else if (clazz == Long.class || clazz == long.class) {
+            object = Long.parseLong(value);
+        } else if (clazz == Float.class || clazz == float.class) {
+            object = Float.parseFloat(value);
+        } else if (clazz == Double.class || clazz == double.class) {
+            object = Double.parseDouble(value);
+        } else if (clazz == Boolean.class || clazz == boolean.class) {
+            object = Boolean.parseBoolean(value);
+        }
+        return object;
     }
 }

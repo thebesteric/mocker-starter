@@ -104,13 +104,38 @@ public interface AttributeFiller {
      *
      * @param clazz    clazz
      * @param instance instance
-     * @param value    值
+     * @param value    value
      * @return Object
      * @throws Throwable throwable
      * @author Eric
      * @date 2021/6/10 1:10
      */
     default Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
+        if (value != null) {
+            String strValue;
+            if (value instanceof String[]) {
+                String[] arr = (String[]) value;
+                strValue = arr[0];
+            } else {
+                strValue = String.valueOf(value);
+            }
+            return doMockValue(clazz, instance, strValue);
+        }
+        return doMockValue(clazz, instance, null);
+    }
+
+    /**
+     * 属性填充（指定填充）
+     *
+     * @param clazz    clazz
+     * @param instance instance
+     * @param value    value
+     * @return Object
+     * @throws Throwable throwable
+     * @author Eric
+     * @date 2021/6/10 1:10
+     */
+    default Object doMockValue(Class<?> clazz, Object instance, String value) throws Throwable {
         return null;
     }
 }

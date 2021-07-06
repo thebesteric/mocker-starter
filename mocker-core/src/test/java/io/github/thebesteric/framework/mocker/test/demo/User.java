@@ -29,13 +29,15 @@ public class User {
     private Integer age;
     private double x = 1.11;
     @MockProp("3.1415926")
-    private Float y;
+    private float y;
     @MockProp("3.1415926")
     private Double pi;
     private User u;
     private Order o;
-    private String[] arr;
+    @MockProp({"1", "2"})
+    private double[] arr;
     private Order[] orders;
+    @MockProp({"3", "4", "5", "6"})
     private List<Integer> list;
     private List<Order> listOrders;
     private Map<String, String> maps;
