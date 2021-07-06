@@ -1,14 +1,19 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.commons.utils.CollectionUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ComplexAttributeFiller
@@ -18,12 +23,14 @@ import java.util.List;
  * @date 2021-06-01 01:42
  * @since 1.0
  */
+@Slf4j
 public class ComplexAttributeFiller extends AbstractAttributeFiller {
 
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isComplex(clazz) && !isArray(clazz);
+    public boolean match(ClassWarp classWarp) {
+        Class<?> clazz = classWarp.getClazz();
+        return isComplex(clazz) && !isArray(clazz) && !classWarp.isArray();
     }
 
     @Override
@@ -77,8 +84,9 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
                 return instance;
             }
         }
-        // Processes arguments of primitive and String types
-        if (value != null && (value.getClass().isPrimitive() || value.getClass() == String.class)) {
+        // Processes arguments of primitive or String types
+        if (value != null && clazz != BigDecimal.class
+                && (value.getClass().isPrimitive() || isString(value.getClass()))) {
             clazz = value.getClass();
         }
         instance = populate(clazz, instance, value);
@@ -95,14 +103,29 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
             currentClass = currentClass.getSuperclass();
         }
 
+        allFields = allFields.stream().filter(field -> !ReflectUtils.isFinal(field)).collect(Collectors.toList());
+
         // Assign the fields in turn
         if (allFields.size() > 0 && !clazz.isPrimitive() && clazz != String.class) {
             for (Field objectField : allFields) {
+                ClassWarp classWarp = new ClassWarp(objectField.getType());
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                    if (attributeFiller.match(objectField.getType()) && !objectField.isAnnotationPresent(MockIgnore.class)) {
+                    if (attributeFiller.match(classWarp) && !objectField.isAnnotationPresent(MockIgnore.class)) {
                         objectField.setAccessible(true);
-                        Object fieldValue = objectField.get(instance);
-                        attributeFiller.populateInstance(instance, objectField, fieldValue);
+                        if (objectField.isAnnotationPresent(MockProp.class) &&
+                                (isPrimitive(objectField.getType())
+                                        || isWrap(objectField.getType())
+                                        || isString(objectField.getType()))) {
+                            MockProp mockProp = objectField.getAnnotation(MockProp.class);
+                            attributeFiller.populateInstance(instance, objectField, mockProp.value());
+                        } else {
+                            try {
+                                Object fieldValue = objectField.get(instance);
+                                attributeFiller.populateInstance(instance, objectField, fieldValue);
+                            } catch (Exception ex) {
+                                log.info(ex.getMessage());
+                            }
+                        }
                         break;
                     }
                 }
@@ -123,8 +146,8 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
      * @author Eric
      * @date 2021/6/1 2:27
      */
-    public static class NonValue {
-        private NonValue() {
+    public static class NonType {
+        private NonType() {
             super();
         }
     }

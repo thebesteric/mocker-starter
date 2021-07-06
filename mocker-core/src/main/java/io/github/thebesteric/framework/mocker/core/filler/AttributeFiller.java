@@ -1,7 +1,9 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
+import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -21,12 +23,12 @@ public interface AttributeFiller {
     /**
      * 是否匹配
      *
-     * @param clazz 字段
+     * @param classWarp 字段
      * @return boolean
      * @author Eric
-     * @date 2021/6/1 1:47
+     * @date 2021/7/3 0:02
      */
-    boolean match(Class<?> clazz);
+    boolean match(ClassWarp classWarp);
 
     /**
      * 属性填充
@@ -56,10 +58,16 @@ public interface AttributeFiller {
         do {
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
-                if (match(field.getType()) && !ReflectUtils.isFinal(field)
+                ClassWarp classWarp = new ClassWarp(field.getType());
+                if (match(classWarp) && !ReflectUtils.isFinal(field)
                         && !field.isAnnotationPresent(MockIgnore.class)) {
                     field.setAccessible(true);
-                    doPopulateInstance(mockInstance, field);
+                    if (field.isAnnotationPresent(MockProp.class)) {
+                        MockProp mockProp = field.getAnnotation(MockProp.class);
+                        doPopulateInstance(mockInstance, field, mockProp.value());
+                    } else {
+                        doPopulateInstance(mockInstance, field);
+                    }
                 }
             }
             currentClass = currentClass.getSuperclass();
@@ -96,13 +104,38 @@ public interface AttributeFiller {
      *
      * @param clazz    clazz
      * @param instance instance
-     * @param value    值
+     * @param value    value
      * @return Object
      * @throws Throwable throwable
      * @author Eric
      * @date 2021/6/10 1:10
      */
     default Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
+        if (value != null) {
+            String strValue;
+            if (value instanceof String[]) {
+                String[] arr = (String[]) value;
+                strValue = arr[0];
+            } else {
+                strValue = String.valueOf(value);
+            }
+            return doMockValue(clazz, instance, strValue);
+        }
+        return doMockValue(clazz, instance, null);
+    }
+
+    /**
+     * 属性填充（指定填充）
+     *
+     * @param clazz    clazz
+     * @param instance instance
+     * @param value    value
+     * @return Object
+     * @throws Throwable throwable
+     * @author Eric
+     * @date 2021/6/10 1:10
+     */
+    default Object doMockValue(Class<?> clazz, Object instance, String value) throws Throwable {
         return null;
     }
 }

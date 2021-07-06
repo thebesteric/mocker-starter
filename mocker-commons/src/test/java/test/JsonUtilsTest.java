@@ -61,6 +61,19 @@ public class JsonUtilsTest {
         checkJsonStr(str);
     }
 
+    @Test
+    public void toJsonStr3() throws JsonProcessingException {
+        String str = "{\n" +
+                "  \"code\": 100,\n" +
+                "  \"data\": {\n" +
+                "    \"link\": \"ftp://www.baidu.com\",\n" +
+                "    \"url\": \"https://www.baidu.com\"\n" +
+                "  },\n" +
+                "  \"message\": \"OK\"\n" +
+                "}";
+        checkJsonStr(str);
+    }
+
     private void checkJsonStr(String str) throws JsonProcessingException {
         System.out.println(JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(str), Object.class));
     }

@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
 
     @Override
-    public boolean match(Class<?> clazz) {
-        return isMap(clazz);
+    public boolean match(ClassWarp classWarp) {
+        return isMap(classWarp.getClazz());
     }
 
     @Override
@@ -39,17 +40,17 @@ public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
         }
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-        Class<?> keyType = Class.forName(actualTypeArguments[0].getTypeName());
-        Class<?> valueType = Class.forName(actualTypeArguments[1].getTypeName());
+        ClassWarp keyType = new ClassWarp(Class.forName(actualTypeArguments[0].getTypeName()));
+        ClassWarp valueType = new ClassWarp(Class.forName(actualTypeArguments[1].getTypeName()));
         Object mapKey, mapValue = null;
 
         for (int i = 0; i < getProperties().getIteratorLength(); i++) {
             for (AttributeFiller keyAttributeFiller : getAttributeFillers()) {
                 if (keyAttributeFiller.match(keyType)) {
-                    mapKey = keyAttributeFiller.mockValue(keyType, mockInstance, null);
+                    mapKey = keyAttributeFiller.mockValue(keyType.getClazz(), mockInstance, null);
                     for (AttributeFiller valueAttributeFiller : getAttributeFillers()) {
                         if (valueAttributeFiller.match(valueType)) {
-                            mapValue = valueAttributeFiller.mockValue(valueType, mockInstance, null);
+                            mapValue = valueAttributeFiller.mockValue(valueType.getClazz(), mockInstance, null);
                             break;
                         }
                     }

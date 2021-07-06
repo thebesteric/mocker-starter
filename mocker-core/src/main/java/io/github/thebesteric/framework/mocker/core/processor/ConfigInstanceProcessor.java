@@ -1,7 +1,9 @@
 package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.*;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
 import io.github.thebesteric.framework.mocker.core.filler.ComplexAttributeFiller;
 import org.apache.commons.lang3.StringUtils;
@@ -22,8 +24,8 @@ import java.util.List;
  */
 public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcessor {
 
-    public ConfigInstanceProcessor(List<AttributeFiller> attributeFillers) {
-        super(attributeFillers);
+    public ConfigInstanceProcessor(CacheUtils cacheUtils, List<AttributeFiller> attributeFillers) {
+        super(cacheUtils, attributeFillers);
     }
 
     @Override
@@ -43,6 +45,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
         for (MockItParam mockItParam : mockItParams) {
             String key = mockItParam.key();
             for (Field field : returnCassType.getDeclaredFields()) {
+                ClassWarp classWarp = new ClassWarp(field);
                 Object value;
                 if (!ReflectUtils.isFinal(field) && field.getName().equals(key)) {
                     // process if simple attributes
@@ -51,7 +54,14 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                     if (StringUtils.isEmpty(String.valueOf(value))) {
                         value = mockItParam.clazz();
                         Class<?> clazz = (Class<?>) value;
-                        if (ComplexAttributeFiller.NonValue.class != clazz) {
+                        if (ComplexAttributeFiller.NonType.class != clazz) {
+                            // clazz is null if attribute clazz set Object[].class
+                            // e.g: @MockItParam(key = "data", clazz = Order[].class)
+                            if (clazz.isArray()) {
+                                clazz = clazz.getComponentType();
+                                classWarp.setClazz(clazz);
+                                classWarp.setArray(true);
+                            }
                             Constructor<?> constructor = determineConstructor(clazz);
                             value = newInstance(constructor);
                             MockItAttr[] mockItAttrs = mockItParam.attrs();
@@ -60,18 +70,19 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                                 Object attrValue = mockItAttr.value();
                                 Class<?> attrClass = mockItAttr.clazz();
                                 for (Field attrField : value.getClass().getDeclaredFields()) {
+                                    ClassWarp attrClassWarp = new ClassWarp(attrField);
                                     if (attrField.getName().equals(attrKey)) {
-                                        if (StringUtils.isEmpty(String.valueOf(attrValue)) && attrClass != ComplexAttributeFiller.NonValue.class) {
+                                        if (StringUtils.isEmpty(String.valueOf(attrValue)) && attrClass != ComplexAttributeFiller.NonType.class) {
                                             Constructor<?> attrConstructor = determineConstructor(attrClass);
                                             attrValue = newInstance(attrConstructor);
                                         }
-                                        value = populateInstance(value, attrField, attrValue);
+                                        value = populateInstance(value, attrClassWarp, attrValue);
                                     }
                                 }
                             }
                         }
                     }
-                    mockInstance = populateInstance(mockInstance, field, value);
+                    mockInstance = populateInstance(mockInstance, classWarp, value);
                     // record the fields that have been used
                     usedFieldClasses.add(field.getType());
                 }
@@ -82,7 +93,8 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
         for (Field field : returnCassType.getDeclaredFields()) {
             if (!ReflectUtils.isFinal(field) && !usedFieldClasses.contains(field.getType())
                     && !field.isAnnotationPresent(MockIgnore.class)) {
-                mockInstance = populateInstance(mockInstance, field, null);
+                ClassWarp unusedClassWarp = new ClassWarp(field);
+                mockInstance = populateInstance(mockInstance, unusedClassWarp, null);
             }
         }
 

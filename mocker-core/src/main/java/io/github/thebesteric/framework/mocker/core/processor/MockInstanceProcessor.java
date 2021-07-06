@@ -2,6 +2,7 @@ package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
 import io.github.thebesteric.framework.mocker.commons.exception.JsonParseException;
+import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,7 +16,11 @@ import java.lang.reflect.Method;
  * @date 2021-05-28 18:50
  * @since 1.0
  */
-public class MockInstanceProcessor implements InstanceProcessor {
+public class MockInstanceProcessor extends AbstractInstanceProcessor {
+
+    public MockInstanceProcessor(CacheUtils cacheUtils) {
+        super(cacheUtils);
+    }
 
     @Override
     public boolean match(MockIt mockIt) {

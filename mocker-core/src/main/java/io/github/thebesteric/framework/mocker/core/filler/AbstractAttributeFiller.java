@@ -63,6 +63,30 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
     }
 
     /**
+     * 是否是字符串类型
+     *
+     * @param clazz class
+     * @return boolean
+     * @author Eric
+     * @date 2021/7/4 20:49
+     */
+    public boolean isString(Class<?> clazz) {
+        return ReflectUtils.isString(clazz);
+    }
+
+    /**
+     * 是否是 BigDecimal 类型
+     *
+     * @param clazz class
+     * @return boolean
+     * @author Eric
+     * @date 2021/7/4 20:49
+     */
+    public boolean isBigDecimal(Class<?> clazz) {
+        return ReflectUtils.isBigDecimal(clazz);
+    }
+
+    /**
      * 是否是复合类型
      *
      * @param clazz class
@@ -71,7 +95,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @date 2021/5/27 18:44
      */
     public boolean isComplex(Class<?> clazz) {
-        return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonValue.class != clazz;
+        return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonType.class != clazz;
     }
 
     /**

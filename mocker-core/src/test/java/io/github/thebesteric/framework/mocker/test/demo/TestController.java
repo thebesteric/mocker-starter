@@ -40,7 +40,7 @@ public class TestController extends BaseController {
         return USERS.get(1);
     }
 
-    @MockIt(mock = "{username: eric, password: 123456}", cache = false)
+    @MockIt(mock = "{username: eric, password: 123456}", cache = true)
     @GetMapping("/mock")
     public User mock() {
         return USERS.get(2);
@@ -69,9 +69,18 @@ public class TestController extends BaseController {
     @MockIt(config = @MockItResponse(params = {
             @MockItParam(key = "code", value = "201"),
             @MockItParam(key = "message", value = "OK"),
-            @MockItParam(key = "data", clazz = MopStoreListResponse.class)}))
+            @MockItParam(key = "data", clazz = User.class)}))
     @GetMapping("/configComplex")
     public R configComplex() {
+        return R.success();
+    }
+
+    @MockIt(config = @MockItResponse(params = {
+            @MockItParam(key = "code", value = "201"),
+            @MockItParam(key = "message", value = "OK"),
+            @MockItParam(key = "data", clazz = Order[].class)}))
+    @GetMapping("/configComplexArray")
+    public R configComplexArray() {
         return R.success();
     }
 

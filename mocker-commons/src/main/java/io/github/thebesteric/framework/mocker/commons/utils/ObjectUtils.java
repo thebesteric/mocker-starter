@@ -1,5 +1,6 @@
 package io.github.thebesteric.framework.mocker.commons.utils;
 
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +63,10 @@ public class ObjectUtils {
                 object = 0.0D;
             } else if (clazz == boolean.class) {
                 object = false;
+            }
+        } else {
+            if (clazz == BigInteger.class) {
+                object = new BigInteger("0");
             }
         }
         return object;

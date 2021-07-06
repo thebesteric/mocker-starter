@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import java.math.BigDecimal;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -83,6 +84,10 @@ public class ReflectUtils {
 
     public static boolean isString(Class<?> clazz) {
         return String.class == clazz;
+    }
+
+    public static boolean isBigDecimal(Class<?> clazz) {
+        return BigDecimal.class == clazz;
     }
 
     public static boolean isPrimitive(Class<?> clazz) {
@@ -326,6 +331,4 @@ public class ReflectUtils {
         }
         return signature.length() > 0 ? signature.substring(0, signature.length() - 1) : "";
     }
-
-
 }

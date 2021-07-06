@@ -52,6 +52,9 @@ public class JsonUtils {
         str = str.replace("}\"]", "}]");
         str = str.replace("{\"[", "{[");
         str = str.replace("]\"}", "]}");
+        str = str.replace("http\":\"", "http:");
+        str = str.replace("https\":\"", "https:");
+        str = str.replace("ftp\":\"", "ftp:");
         return str;
     }
 
