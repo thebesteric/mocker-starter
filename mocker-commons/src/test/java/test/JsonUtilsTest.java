@@ -74,6 +74,31 @@ public class JsonUtilsTest {
         checkJsonStr(str);
     }
 
+    @Test
+    public void toJsonStr4() throws JsonProcessingException {
+        String str = "{\n" +
+                "                \"sequence\": 0,\n" +
+                "                \"linkUrl\": null,\n" +
+                "                \"linkText\": null,\n" +
+                "                \"linkTitle\": null,\n" +
+                "                \"id\": \"15914\",\n" +
+                "                \"text\": \"<a href=\"https://www.starbucks.com.cn/help/legal/terms-of-starbucks-gift-card/\" target=\"_blank\">https://www.starbucks.com.cn/help/legal/terms-of-starbucks-gift-card/</a><br/>\",\n" +
+                "                \"type\": \"GroupNotice\",\n" +
+                "                \"title\": {\n" +
+                "                    \"iconId\": 235,\n" +
+                "                    \"mainTitleShow\": 1,\n" +
+                "                    \"mainTitle\": \"须知\",\n" +
+                "                    \"icon\": \"https://ml-storage.stg.starbucks.com.cn/app/sbuxappeclayout/f62430a4-3684-4b21-b718-edc681aa2de7\",\n" +
+                "                    \"iconShow\": 1,\n" +
+                "                    \"mainTitleBgColor\": \"\",\n" +
+                "                    \"topMargin\": \"1\",\n" +
+                "                    \"bottomMargin\": \"1\",\n" +
+                "                    \"radius\": 1\n" +
+                "                }\n" +
+                "            }";
+        checkJsonStr(str);
+    }
+
     private void checkJsonStr(String str) throws JsonProcessingException {
         System.out.println(JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(str), Object.class));
     }

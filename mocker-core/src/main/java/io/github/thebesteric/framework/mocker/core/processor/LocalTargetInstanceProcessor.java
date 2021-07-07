@@ -59,7 +59,7 @@ public class LocalTargetInstanceProcessor extends AbstractTargetInstanceProcesso
                 }
                 String mockStr = builder.toString();
                 if (StringUtils.isNotEmpty(mockStr)) {
-                    return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(mockStr), method.getReturnType());
+                    return JsonUtils.objectMapper.readValue(mockStr, method.getReturnType());
                 }
             }
         }

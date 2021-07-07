@@ -6,6 +6,7 @@ import io.github.thebesteric.framework.mocker.core.MockerCoreInitialization;
 import io.github.thebesteric.framework.mocker.core.enhancer.MockerAnnotationEnhancer;
 import io.github.thebesteric.framework.mocker.core.filler.*;
 import io.github.thebesteric.framework.mocker.core.processor.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -43,7 +44,7 @@ public class MockerAutoConfiguration {
         return new MockerAnnotationEnhancer(beanFactory, properties, instanceProcessors);
     }
 
-    @Bean
+    @Bean(name = "mockerCacheUtils")
     public CacheUtils cacheUtils(MockerProperties properties) {
         CacheUtils.CacheConfiguration config = CacheUtils.CacheConfiguration.builder()
                 .expireAfterWrite(properties.getCache().getExpireAfterWrite())
@@ -51,7 +52,7 @@ public class MockerAutoConfiguration {
         return new CacheUtils(config);
     }
 
-    @Bean
+    @Bean(name = "mockerHttpUtils")
     public HttpUtils httpUtils() {
         return HttpUtils.getInstance();
     }
@@ -96,7 +97,7 @@ public class MockerAutoConfiguration {
     // for InstanceProcessor
 
     @Bean
-    public InstanceProcessor mockInstanceProcessor(CacheUtils cacheUtils) {
+    public InstanceProcessor mockInstanceProcessor(@Qualifier("mockerCacheUtils") CacheUtils cacheUtils) {
         return new MockInstanceProcessor(cacheUtils);
     }
 
@@ -106,7 +107,7 @@ public class MockerAutoConfiguration {
     }
 
     @Bean
-    public InstanceProcessor remoteTargetInstanceProcessor(CacheUtils cacheUtils, HttpUtils httpUtils) {
+    public InstanceProcessor remoteTargetInstanceProcessor(CacheUtils cacheUtils, @Qualifier("mockerHttpUtils") HttpUtils httpUtils) {
         return new RemoteTargetInstanceProcessor(cacheUtils, httpUtils);
     }
 
