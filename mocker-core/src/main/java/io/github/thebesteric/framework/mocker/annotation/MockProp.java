@@ -16,5 +16,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface MockProp {
-    String[] value();
+    String[] value() default {};
+    int repeat() default -1;
 }

@@ -143,6 +143,11 @@ public class ReflectUtils {
         return field.get(object);
     }
 
+    public static void setFieldValue(Object object,Field field, Object value) throws IllegalAccessException {
+        field.setAccessible(true);
+        field.set(object, value);
+    }
+
     public static boolean isAnnotationPresent(Class<?> objectClass, Class<? extends Annotation> annotationClass) {
         if (objectClass.isAnnotationPresent(annotationClass)) {
             return true;

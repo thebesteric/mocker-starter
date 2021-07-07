@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockProp;
+import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
@@ -44,7 +45,14 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
                 list.add(mockPropValue(actualType, str));
             }
         } else {
-            for (int i = 0; i < getProperties().getIteratorLength(); i++) {
+            // Step.1: Confirm repeat length
+            int repeatlength = getProperties().getIteratorLength();
+            if (field.isAnnotationPresent(MockProp.class)) {
+                MockProp mockProp = field.getAnnotation(MockProp.class);
+                repeatlength = mockProp.repeat() > 0 ? mockProp.repeat() : repeatlength;
+            }
+            // Step.2: Mock Value
+            for (int i = 0; i < repeatlength; i++) {
                 for (AttributeFiller attributeFiller : getAttributeFillers()) {
                     if (attributeFiller.match(classWarp)) {
                         value = attributeFiller.mockValue(actualType, mockInstance, null);
@@ -53,6 +61,21 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
                 }
                 list.add(value);
             }
+            // Step.3: Assign Value
+            for (int i = 0; i < list.size(); i++) {
+                for (Field declaredField : list.get(i).getClass().getDeclaredFields()) {
+                    if (declaredField.isAnnotationPresent(MockProp.class)) {
+                        MockProp mockProp = declaredField.getAnnotation(MockProp.class);
+                        String[] valueArr = mockProp.value();
+                        if (valueArr.length > 0) {
+                            int index = Math.min(i, valueArr.length - 1);
+                            Object propValue = mockPropValue(declaredField.getType(), valueArr[index]);
+                            ReflectUtils.setFieldValue(list.get(i), declaredField, propValue);
+                        }
+                    }
+                }
+            }
+
         }
         field.set(mockInstance, list);
     }
