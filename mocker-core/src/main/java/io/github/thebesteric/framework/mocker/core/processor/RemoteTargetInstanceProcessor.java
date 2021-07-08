@@ -43,7 +43,7 @@ public class RemoteTargetInstanceProcessor extends AbstractTargetInstanceProcess
                 String httpStr = responseEntry.getHttpStr();
                 Class<?> returnType = method.getReturnType();
                 try {
-                    return JsonUtils.objectMapper.readValue(JsonUtils.toJsonStr(httpStr), returnType);
+                    return JsonUtils.objectMapper.readValue(httpStr, returnType);
                 } catch (Throwable throwable) {
                     throw new JsonParseException(httpStr + " cannot cast to " + returnType.getName());
                 }
