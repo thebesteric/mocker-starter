@@ -95,7 +95,8 @@ public class ReflectUtils {
     }
 
     public static boolean isComplex(Class<?> clazz) {
-        return !isPrimitive(clazz) && !isWrap(clazz) && !isList(clazz) && !isMap(clazz)
+        return !isPrimitive(clazz) && !isWrap(clazz)
+                && !isArray(clazz) && !isList(clazz) && !isMap(clazz) && !isSet(clazz)
                 && clazz != String.class;
     }
 
@@ -105,6 +106,10 @@ public class ReflectUtils {
 
     public static boolean isList(Class<?> clazz) {
         return List.class.isAssignableFrom(clazz);
+    }
+
+    public static boolean isSet(Class<?> clazz) {
+        return Set.class.isAssignableFrom(clazz);
     }
 
     public static boolean isMap(Class<?> clazz) {
@@ -143,7 +148,7 @@ public class ReflectUtils {
         return field.get(object);
     }
 
-    public static void setFieldValue(Object object,Field field, Object value) throws IllegalAccessException {
+    public static void setFieldValue(Object object, Field field, Object value) throws IllegalAccessException {
         field.setAccessible(true);
         field.set(object, value);
     }

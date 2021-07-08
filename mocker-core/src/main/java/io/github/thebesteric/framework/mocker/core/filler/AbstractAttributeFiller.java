@@ -44,7 +44,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/5/27 18:43
+     * @date 2021-05-27 18:43
      */
     public boolean isWrap(Class<?> clazz) {
         return ReflectUtils.isWrap(clazz);
@@ -56,7 +56,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/5/27 18:44
+     * @date 2021-05-27 18:44
      */
     public boolean isPrimitive(Class<?> clazz) {
         return ReflectUtils.isPrimitive(clazz);
@@ -68,7 +68,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/7/4 20:49
+     * @date 2021-07-04 20:49
      */
     public boolean isString(Class<?> clazz) {
         return ReflectUtils.isString(clazz);
@@ -80,7 +80,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/7/4 20:49
+     * @date 2021-07-04 20:49
      */
     public boolean isBigDecimal(Class<?> clazz) {
         return ReflectUtils.isBigDecimal(clazz);
@@ -92,7 +92,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/5/27 18:44
+     * @date 2021-05-27 18:44
      */
     public boolean isComplex(Class<?> clazz) {
         return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonType.class != clazz;
@@ -104,7 +104,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/6/9 18:00
+     * @date 2021-06-09 18:00
      */
     public boolean isArray(Class<?> clazz) {
         return ReflectUtils.isArray(clazz);
@@ -116,10 +116,22 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/6/10 1:56
+     * @date 2021-06-110 01:56
      */
     public boolean isList(Class<?> clazz) {
         return ReflectUtils.isList(clazz);
+    }
+
+    /**
+     * 是否是 Set 类型
+     *
+     * @param clazz class
+     * @return boolean
+     * @author Eric
+     * @date 2021-07-08 23:08
+     */
+    public boolean isSet(Class<?> clazz) {
+        return ReflectUtils.isSet(clazz);
     }
 
     /**
@@ -128,7 +140,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @param clazz class
      * @return boolean
      * @author Eric
-     * @date 2021/6/10 1:56
+     * @date 2021-06-10 1:56
      */
     public boolean isMap(Class<?> clazz) {
         return ReflectUtils.isMap(clazz);
@@ -139,7 +151,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      *
      * @return Collection
      * @author Eric
-     * @date 2021/6/10 12:28
+     * @date 2021-06-10 12:28
      */
     protected Collection<AttributeFiller> getAttributeFillers() {
         Map<String, AttributeFiller> attributeFillerMap = this.applicationContext.getBeansOfType(AttributeFiller.class);

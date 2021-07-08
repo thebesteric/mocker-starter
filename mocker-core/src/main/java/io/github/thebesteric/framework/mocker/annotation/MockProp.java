@@ -17,5 +17,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface MockProp {
     String[] value() default {};
-    int repeat() default -1;
+    int length() default -1;
 }

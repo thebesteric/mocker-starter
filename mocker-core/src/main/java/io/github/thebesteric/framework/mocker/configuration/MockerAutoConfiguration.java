@@ -85,6 +85,11 @@ public class MockerAutoConfiguration {
     }
 
     @Bean
+    public AttributeFiller setAttributeFiller() {
+        return new SetAttributeFiller();
+    }
+
+    @Bean
     public AttributeFiller mapAttributeFiller() {
         return new MapAttributeFiller();
     }

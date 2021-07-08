@@ -2,24 +2,25 @@ package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
+import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * ListAttributeFiller
+ * ArrayAttributeFiller
  *
  * @author Eric Joe
  * @version 1.0
- * @date 2021-06-10 12:08
+ * @date 2021-07-08 23:07
  * @since 1.0
  */
-public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
-
+@RequiredArgsConstructor
+public class SetAttributeFiller extends AbstractIteratorAttributeFiller {
     @Override
     public boolean match(ClassWarp classWarp) {
-        return isList(classWarp.getClazz());
+        return isSet(classWarp.getClazz());
     }
 
     @Override
@@ -27,12 +28,12 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
         Class<?> actualType = getActualType(field);
         ClassWarp classWarp = new ClassWarp(actualType);
 
-        List<Object> list = new ArrayList<>();
+        Set<Object> set = new HashSet<>();
         if (field.isAnnotationPresent(MockProp.class) && (isWrap(actualType) || isString(actualType))) {
             MockProp mockProp = field.getAnnotation(MockProp.class);
             String[] valueArr = mockProp.value();
             for (String str : valueArr) {
-                list.add(mockPropValue(actualType, str));
+                set.add(mockPropValue(actualType, str));
             }
         } else {
             // Step.1: Confirm repeat length
@@ -49,9 +50,9 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
                         break;
                     }
                 }
-                list.add(value);
+                set.add(value);
             }
         }
-        field.set(mockInstance, list);
+        field.set(mockInstance, set);
     }
 }

@@ -47,11 +47,25 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
         }
 
         Object newArray;
-        if (field.isAnnotationPresent(MockProp.class)
-                && (isPrimitive(componentClassType) || isWrap(componentClassType) || isString(componentClassType))) {
-            MockProp mockProp = field.getAnnotation(MockProp.class);
-            newArray = mockPropValue(componentClassType, mockProp.value());
-            field.set(mockInstance, newArray);
+        if (field.isAnnotationPresent(MockProp.class)) {
+            if (isPrimitive(componentClassType) || isWrap(componentClassType) || isString(componentClassType)) {
+                MockProp mockProp = field.getAnnotation(MockProp.class);
+                newArray = mockPropValue(componentClassType, mockProp.value());
+                field.set(mockInstance, newArray);
+            } else {
+                // Step.1: Confirm repeat length
+                int repeatLength = getRepeatLength(field);
+
+                // Step.2: Mock Value
+                newArray = mockValue(componentClassType, mockInstance, repeatLength);
+                Object[] arr = (Object[]) newArray;
+                for (int i = 0; i < arr.length; i++) {
+                    Object obj = arr[i];
+                    populateMockPropValue(obj, i);
+                }
+
+                field.set(mockInstance, arr);
+            }
         } else {
             newArray = mockValue(componentClassType, mockInstance, value);
             field.set(mockInstance, value != null && componentClassType != null ? value : newArray);
@@ -89,6 +103,21 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
         return arr;
     }
 
+    private Object mockValue(Class<?> componentClassType, Object instance, int length) throws Throwable {
+        Object newArray = Array.newInstance(componentClassType, length);
+        for (int i = 0; i < Array.getLength(newArray); i++) {
+            Object value = null;
+            for (AttributeFiller attributeFiller : getAttributeFillers()) {
+                if (attributeFiller.match(new ClassWarp(componentClassType))) {
+                    value = attributeFiller.mockValue(componentClassType, instance, null);
+                    break;
+                }
+            }
+            Array.set(newArray, i, value);
+        }
+        return newArray;
+    }
+
     @Override
     public Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
         if (clazz != null && value != null) {
@@ -101,6 +130,7 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
         }
 
         ClassWarp classWarp = new ClassWarp(clazz);
+
         Object newArray = Array.newInstance(clazz, getProperties().getIteratorLength());
         for (int i = 0; i < Array.getLength(newArray); i++) {
             for (AttributeFiller attributeFiller : getAttributeFillers()) {

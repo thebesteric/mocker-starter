@@ -30,7 +30,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
     @Override
     public boolean match(ClassWarp classWarp) {
         Class<?> clazz = classWarp.getClazz();
-        return isComplex(clazz) && !isArray(clazz) && !classWarp.isArray();
+        return isComplex(clazz) && !classWarp.isArray();
     }
 
     @Override
