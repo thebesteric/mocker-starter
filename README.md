@@ -89,6 +89,70 @@ public class UserController {
 }
 ```
 
+- Use @MockProp in Domain Class
+> You can use @MockProp annotation to easy mock
+```java
+@Data
+public class User {
+    @MockProp("eric")
+    private String username;
+    
+    @MockProp("******")
+    private String password;
+    
+    @MockProp("18")
+    private Integer age;
+    
+    @MockProp({"basketball", "guitar", "travel"})
+    private List<String> hobbies;
+    
+    private Address address;
+    
+    @MockProp(length = 3)
+    private List<Address> otherAddresses;
+}
+
+@Data
+public class Address {
+    @MockProp({"Anhui", "Shanghai", "Beijing"})
+    private String address;
+
+    @MockProp({"230031", "200000", "100000"})
+    private String zipcode;
+}
+```
+> Mock Result
+```json
+{
+    "username": "eric",
+    "password": "******",
+    "age": 18,
+    "hobbies": [
+        "basketball",
+        "guitar",
+        "travel"
+    ],
+    "address": {
+        "address": "Anhui",
+        "zipcode": "230031"
+    },
+    "otherAddresses": [
+        {
+            "address": "Anhui",
+            "zipcode": "230031"
+        },
+        {
+            "address": "Shanghai",
+            "zipcode": "200000"
+        },
+        {
+            "address": "Beijing",
+            "zipcode": "100000"
+        }
+    ]
+}
+```
+
 ### Configure Mocker
 ```yaml
 sourceflag:
