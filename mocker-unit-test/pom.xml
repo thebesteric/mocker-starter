@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mocker-test</artifactId>
+    <artifactId>mocker-unit-test</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
