@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @DisplayName("Mocker Junit Test")
-public class MockerTest {
+public class MockerUnitCaseTest {
 
     @Test
     public void mockObject() {
