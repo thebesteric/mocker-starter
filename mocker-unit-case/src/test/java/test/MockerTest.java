@@ -1,6 +1,6 @@
 package test;
 
-import io.github.thebesteric.framework.mocker.unit.test.Mocker;
+import io.github.thebesteric.framework.mocker.unit.Mocker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -31,7 +31,7 @@ hs_err_pid*
 
 /mocker-commons/mocker-commons.iml
 /mocker-core/mocker-core.iml
-/mocker-unit-test/mocker-unit-test.iml
+/mocker-unit-case/mocker-unit-case.iml
 /mocker-starter.iml
 
 TODO.md

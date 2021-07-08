@@ -42,8 +42,8 @@
 
     <modules>
         <module>mocker-core</module>
-        <module>mocker-unit-test</module>
         <module>mocker-commons</module>
+        <module>mocker-unit-case</module>
     </modules>
 
     <properties>

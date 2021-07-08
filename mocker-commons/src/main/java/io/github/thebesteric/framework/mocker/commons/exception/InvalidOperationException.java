@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.unit.test.exception;
+package io.github.thebesteric.framework.mocker.commons.exception;
 
 /**
  * InvalidOperationException

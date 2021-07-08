@@ -1,4 +1,4 @@
-package io.github.thebesteric.framework.mocker.unit.test;
+package io.github.thebesteric.framework.mocker.unit;
 
 import lombok.Getter;
 import lombok.Setter;

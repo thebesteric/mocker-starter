@@ -1,7 +1,7 @@
-package io.github.thebesteric.framework.mocker.unit.test;
+package io.github.thebesteric.framework.mocker.unit;
 
+import io.github.thebesteric.framework.mocker.commons.exception.InvalidOperationException;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
-import io.github.thebesteric.framework.mocker.unit.test.exception.InvalidOperationException;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 
@@ -20,10 +20,10 @@ public class Mocker {
 
     private static Mocker mocker;
 
-    public static ThreadLocal<MockInstance> threadLocal = new ThreadLocal<>();
+    public static ThreadLocal<io.github.thebesteric.framework.mocker.unit.MockInstance> threadLocal = new ThreadLocal<>();
 
     private Mocker(Class<?> mockClass) {
-        MockInstance mockInstance = new MockInstance();
+        io.github.thebesteric.framework.mocker.unit.MockInstance mockInstance = new io.github.thebesteric.framework.mocker.unit.MockInstance();
         mockInstance.setClazz(mockClass);
         threadLocal.set(mockInstance);
     }
@@ -31,7 +31,7 @@ public class Mocker {
     @SuppressWarnings("unchecked")
     public static <T> T mock(Class<T> mockClass) {
         mocker = new Mocker(mockClass);
-        threadLocal.get().setMockerInterceptor(new MockerInterceptor());
+        threadLocal.get().setMockerInterceptor(new io.github.thebesteric.framework.mocker.unit.MockerInterceptor());
         threadLocal.get().setInstance(enhance(mockClass, threadLocal.get().getMockerInterceptor()));
         return (T) threadLocal.get().getInstance();
     }
