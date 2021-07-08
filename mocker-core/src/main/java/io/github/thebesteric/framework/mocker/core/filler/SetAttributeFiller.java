@@ -45,6 +45,7 @@ public class SetAttributeFiller extends AbstractIteratorAttributeFiller {
                     if (attributeFiller.match(classWarp)) {
                         value = attributeFiller.mockValue(actualType, mockInstance, null);
                         if(isComplex(value.getClass())) {
+                            // Step.3: Assign Value
                             populateMockPropValue(value, i);
                         }
                         break;

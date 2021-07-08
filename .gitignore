@@ -27,12 +27,11 @@ hs_err_pid*
 /target/*
 /mocker-core/target/*
 /mocker-commons/target/*
-/mocker-test/target/*
-
+/mocker-unit-test/target/*
 
 /mocker-commons/mocker-commons.iml
 /mocker-core/mocker-core.iml
+/mocker-unit-test/mocker-unit-test.iml
 /mocker-starter.iml
-/mocker-test/mocker-test.iml
 
 TODO.md
