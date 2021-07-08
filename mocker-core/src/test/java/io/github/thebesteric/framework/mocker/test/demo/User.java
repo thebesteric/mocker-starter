@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User
@@ -27,6 +28,10 @@ public class User {
     private String password;
     @MockIgnore
     private Integer age;
+    @MockProp({"3", "4", "5", "6"})
+    private Set<String> sets;
+    @MockProp(length = 4)
+    private Set<Order> orderSets;
     private double x = 1.11;
     @MockProp("3.1415926")
     private float y;
@@ -36,9 +41,12 @@ public class User {
     private Order o;
     @MockProp({"1", "2"})
     private double[] arr;
+    @MockProp(length = 2)
     private Order[] orders;
     @MockProp({"3", "4", "5", "6"})
     private List<Integer> list;
+
+    @MockProp(length = 4)
     private List<Order> listOrders;
     private Map<String, String> maps;
     private Map<String, Order> mapOrders;
