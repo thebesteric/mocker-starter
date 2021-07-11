@@ -28,22 +28,27 @@ public class User {
     private String password;
     @MockIgnore
     private Integer age;
-    @MockProp({"3", "4", "5", "6"})
+
+    @MockProp({"3", "4", "null", "6"})
     private Set<String> sets;
     @MockProp(length = 4)
     private Set<Order> orderSets;
+
     private double x = 1.11;
     @MockProp("3.1415926")
     private float y;
     @MockProp("3.1415926")
     private Double pi;
+
     private User u;
     private Order o;
+
     @MockProp({"1", "2"})
     private double[] arr;
     @MockProp(length = 2)
     private Order[] orders;
-    @MockProp({"3", "4", "5", "6"})
+
+    @MockProp({"3", "null", "5", "6"})
     private List<Integer> list;
 
     @MockProp(length = 4)

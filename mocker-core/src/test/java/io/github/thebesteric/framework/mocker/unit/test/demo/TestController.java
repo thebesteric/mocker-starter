@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.unit.test.demo;
 
 import io.github.thebesteric.framework.mocker.annotation.*;
+import io.github.thebesteric.framework.mocker.unit.test.demo.domain.ProductDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +37,8 @@ public class TestController extends BaseController {
 
     @MockIt(enable = true, cache = true)
     @GetMapping("/normal")
-    public User normal() {
-        return USERS.get(1);
+    public ProductDetailResponse normal() {
+        return null;
     }
 
     @MockIt(mock = "{username: eric, password: 123456}", cache = true)
