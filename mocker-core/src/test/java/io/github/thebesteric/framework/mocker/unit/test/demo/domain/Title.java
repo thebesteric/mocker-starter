@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 public class Title {
-    @MockProp({"235", "236", "237", "238"})
+    @MockProp({"235", "236", "237", "null"})
     private Integer iconId;
-    @MockProp({"1", "2"})
+    @MockProp({"1", "2", "3", "null"})
     private Integer mainTitleShow;
-    @MockProp({"须知", "测试", "须知1", "测试1"})
+    @MockProp({"须知", "测试", "须知1", "null"})
     private String mainTitle;
     @MockProp("https://ml-storage.stg.starbucks.com.cn/app/sbuxappeclayout/f62430a4-3684-4b21-b718-edc681aa2de7")
     private String icon;

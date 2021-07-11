@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class Notice {
-    @MockProp({"15914", "15917", "15920", ""})
+    @MockProp({"15914", "15917", "15920", "null"})
     private String id;
-    @MockProp({"0", "1", "2", "3"})
+    @MockProp({"0", "1", "2", "null"})
     private Integer sequence;
     @MockIgnore
     private String linkUrl;
