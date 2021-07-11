@@ -2,9 +2,11 @@ package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import io.github.thebesteric.framework.mocker.annotation.MockProp;
+import io.github.thebesteric.framework.mocker.annotation.MockPropGroup;
 import io.github.thebesteric.framework.mocker.commons.utils.CollectionUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.JsonUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ThreadLocalUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,11 +91,11 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
                 && (value.getClass().isPrimitive() || isString(value.getClass()))) {
             clazz = value.getClass();
         }
-        instance = populate(clazz, instance, value);
+        instance = populate(clazz, mockInstance, instance, value);
         return instance;
     }
 
-    private Object populate(Class<?> clazz, Object instance, Object value) throws Throwable {
+    private Object populate(Class<?> clazz, Object parent, Object instance, Object value) throws Throwable {
         List<Field> allFields = CollectionUtils.arrayToList(clazz.getDeclaredFields());
 
         // Find all fields in the subclass and superclass
@@ -117,13 +119,19 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
                                         || isWrap(objectField.getType())
                                         || isString(objectField.getType()))) {
                             MockProp mockProp = objectField.getAnnotation(MockProp.class);
-                            attributeFiller.populateInstance(instance, objectField, mockProp.value());
+                            String[] mockValue = mockProp.value();
+                            MockPropGroup[] group = mockProp.group();
+                            if(group.length > 0) {
+                                Integer groupIndex = (Integer) ThreadLocalUtils.getOrDefault(parent.getClass().getName(), 0);
+                                mockValue = group[groupIndex].value();
+                            }
+                            attributeFiller.populateInstance(instance, objectField, mockValue);
                         } else {
                             try {
                                 Object fieldValue = objectField.get(instance);
                                 attributeFiller.populateInstance(instance, objectField, fieldValue);
                             } catch (Exception ex) {
-                                log.info(ex.getMessage());
+                                ex.printStackTrace();
                             }
                         }
                         break;
@@ -131,7 +139,7 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
                 }
             }
         } else if (value != null) {
-            instance = populate(value.getClass(), value, null);
+            instance = populate(value.getClass(), parent, value, null);
         }
         return instance;
     }

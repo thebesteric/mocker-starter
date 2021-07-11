@@ -2,6 +2,7 @@ package io.github.thebesteric.framework.mocker.core.processor;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIt;
 import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ThreadLocalUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Method;
@@ -24,6 +25,7 @@ public abstract class AbstractInstanceProcessor implements InstanceProcessor {
         mockInstance = doProcess(mockIt, method);
         if (mockInstance != null && mockIt.cache()) {
             cacheUtils.put(methodSignature, mockInstance);
+            ThreadLocalUtils.clear();
         }
         return mockInstance;
     }

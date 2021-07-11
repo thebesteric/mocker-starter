@@ -1,6 +1,5 @@
 package io.github.thebesteric.framework.mocker.core.filler;
 
-import io.github.thebesteric.framework.mocker.annotation.MockProp;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
@@ -27,32 +26,7 @@ public class ListAttributeFiller extends AbstractIteratorAttributeFiller {
         Class<?> actualType = getActualType(field);
         ClassWarp classWarp = new ClassWarp(actualType);
 
-        List<Object> list = new ArrayList<>();
-        if (field.isAnnotationPresent(MockProp.class) && (isWrap(actualType) || isString(actualType))) {
-            MockProp mockProp = field.getAnnotation(MockProp.class);
-            String[] valueArr = mockProp.value();
-            for (String str : valueArr) {
-                list.add(mockPropValue(actualType, str));
-            }
-        } else {
-            // Step.1: Confirm repeat length
-            int repeatLength = getRepeatLength(field);
-
-            // Step.2: Mock Value
-            for (int i = 0; i < repeatLength; i++) {
-                for (AttributeFiller attributeFiller : getAttributeFillers()) {
-                    if (attributeFiller.match(classWarp)) {
-                        value = attributeFiller.mockValue(actualType, mockInstance, null);
-                        if(isComplex(value.getClass())) {
-                            // Step.3: Assign Value
-                            populateMockPropValue(value, i);
-                        }
-                        break;
-                    }
-                }
-                list.add(value);
-            }
-        }
+        List<Object> list = (List<Object>) collectionFiller(mockInstance, classWarp, field, actualType, new ArrayList<>(), value);
         field.set(mockInstance, list);
     }
 }

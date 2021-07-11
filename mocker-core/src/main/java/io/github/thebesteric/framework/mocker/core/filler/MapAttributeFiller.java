@@ -62,9 +62,4 @@ public class MapAttributeFiller extends AbstractIteratorAttributeFiller {
 
         field.set(mockInstance, map);
     }
-
-    @Override
-    public Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
-        return super.mockValue(clazz, instance, value);
-    }
 }

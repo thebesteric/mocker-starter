@@ -18,4 +18,5 @@ import java.lang.annotation.*;
 public @interface MockProp {
     String[] value() default {};
     int length() default -1;
+    MockPropGroup[] group() default {};
 }

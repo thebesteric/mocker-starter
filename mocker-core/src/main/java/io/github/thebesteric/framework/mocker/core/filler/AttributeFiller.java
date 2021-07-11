@@ -2,7 +2,9 @@ package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.annotation.MockIgnore;
 import io.github.thebesteric.framework.mocker.annotation.MockProp;
+import io.github.thebesteric.framework.mocker.annotation.MockPropGroup;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
+import io.github.thebesteric.framework.mocker.commons.utils.ThreadLocalUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 
 import java.lang.reflect.Field;
@@ -18,6 +20,7 @@ import java.util.Random;
  */
 public interface AttributeFiller {
 
+    String NULL_VALUE = "null";
     Random RANDOM = new Random(System.nanoTime());
 
     /**
@@ -42,7 +45,26 @@ public interface AttributeFiller {
      */
     default void populateInstance(Object mockInstance, Field field, Object value) throws Throwable {
         field.setAccessible(true);
-        doPopulateInstance(mockInstance, field, value);
+        if (!ReflectUtils.isFinal(field)) {
+            if (field.isAnnotationPresent(MockProp.class)) {
+                MockProp mockProp = field.getAnnotation(MockProp.class);
+                MockPropGroup[] mockPropGroups = mockProp.group();
+                if (mockPropGroups.length > 0 && value instanceof String[]) {
+                    String[] values = (String[]) value;
+                    Integer groupPropIndex = (Integer) ThreadLocalUtils.getOrDefault(mockInstance.getClass().getName(), 0);
+                    value = values[groupPropIndex];
+                }
+            }
+            String key = field.getDeclaringClass().getName() + "." + field.getName();
+            Integer index = (Integer) ThreadLocalUtils.getOrDefault(key, 0);
+            if (value instanceof String[]) {
+                String[] arr = ((String[]) value);
+                index = Math.min(index, arr.length - 1);
+                value = arr[index];
+            }
+            doPopulateInstance(mockInstance, field, value);
+            ThreadLocalUtils.put(key, ++index);
+        }
     }
 
     /**
@@ -112,10 +134,12 @@ public interface AttributeFiller {
      */
     default Object mockValue(Class<?> clazz, Object instance, Object value) throws Throwable {
         if (value != null) {
-            String strValue;
+            String strValue = null;
             if (value instanceof String[]) {
                 String[] arr = (String[]) value;
-                strValue = arr[0];
+                if (arr.length > 0) {
+                    strValue = arr[0];
+                }
             } else {
                 strValue = String.valueOf(value);
             }

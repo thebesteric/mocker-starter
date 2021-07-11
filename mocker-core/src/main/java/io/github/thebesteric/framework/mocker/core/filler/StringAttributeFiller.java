@@ -3,6 +3,7 @@ package io.github.thebesteric.framework.mocker.core.filler;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
@@ -19,18 +20,18 @@ import java.lang.reflect.Field;
 public class StringAttributeFiller extends AbstractAttributeFiller {
 
     @Override
-    public boolean match(ClassWarp classWarp) {
+    public boolean match(@NotNull ClassWarp classWarp) {
         return ReflectUtils.isString(classWarp.getClazz());
     }
 
     @Override
-    public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
-        // random 4 ~ 10 characters
+    public void doPopulateInstance(Object mockInstance, @NotNull Field field, Object value) throws Throwable {
         field.set(mockInstance, mockValue(field.getType(), mockInstance, value));
     }
 
     @Override
     public Object doMockValue(Class<?> clazz, Object instance, String value) {
+        // random 4 ~ 10 characters
         return value != null ? value : RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(7) + 4);
     }
 }

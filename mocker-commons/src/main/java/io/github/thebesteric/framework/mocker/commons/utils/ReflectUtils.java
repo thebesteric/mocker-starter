@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.commons.utils;
 
 import org.springframework.util.ClassUtils;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -116,6 +117,9 @@ public class ReflectUtils {
         return Map.class.isAssignableFrom(clazz);
     }
 
+    public static boolean isCollection(Class<?> clazz) {
+        return Collection.class.isAssignableFrom(clazz);
+    }
 
     public static List<Field> getFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
@@ -131,7 +135,7 @@ public class ReflectUtils {
     }
 
 
-    public static List<String> getFieldName(Class<?> clazz) {
+    public static List<String> getFieldNames(Class<?> clazz) {
         List<Field> fields = getFields(clazz);
         List<String> fieldNames = new ArrayList<>();
         for (Field field : fields) {
@@ -151,6 +155,17 @@ public class ReflectUtils {
     public static void setFieldValue(Object object, Field field, Object value) throws IllegalAccessException {
         field.setAccessible(true);
         field.set(object, value);
+    }
+
+    public static String getFieldFullName(Field field) {
+        return field.getDeclaringClass().getName() + "." + field.getName();
+    }
+
+    public static String getCollectionActualType(Field field) {
+        if (isList(field.getType()) || isSet(field.getType())) {
+            return ((ParameterizedTypeImpl) field.getGenericType()).getActualTypeArguments()[0].getTypeName();
+        }
+        throw new RuntimeException(field.getName() + " is not collection type");
     }
 
     public static boolean isAnnotationPresent(Class<?> objectClass, Class<? extends Annotation> annotationClass) {

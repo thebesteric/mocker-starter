@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 public class Order {
-    @MockProp({"123", "456", "789"})
+    @MockProp({"123", "null", "789"})
     private String id;
 
     @MockProp({"name-1", "name-2", "name-3"})
