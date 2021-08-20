@@ -1,5 +1,14 @@
 ### Quick Start
 
+- Download
+```xml
+<dependency>
+  <groupId>io.github.thebesteric.framework.mocker</groupId>
+  <artifactId>mocker-core</artifactId>
+  <version>1.0.1</version>
+</dependency>
+```
+
 - Mocker Starter plugin based on SpringBoot
 
 ```java
