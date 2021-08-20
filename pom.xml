@@ -8,7 +8,7 @@
     <groupId>io.github.thebesteric.framework.mocker</groupId>
     <artifactId>mocker-starter</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>mocker starter</name>
     <url>https://github.com/thebesteric/mocker-starter</url>
