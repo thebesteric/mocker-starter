@@ -6,36 +6,39 @@ import java.util.Objects;
 
 public class ThreadLocalUtils {
 
-    private static ThreadLocal<Map<Object, Object>> RESOURCES;
+    private static ThreadLocal<Map<Object, Object>> THREAD_LOCAL;
+
 
     public static void initThreadLocal() {
-        RESOURCES = new ThreadLocal<>();
-        RESOURCES.set(new HashMap<>());
+        if (THREAD_LOCAL == null) {
+            THREAD_LOCAL = new ThreadLocal<>();
+        }
+        THREAD_LOCAL.set(new HashMap<>());
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void initInheritableThreadLocal() {
         removeResources();
-        RESOURCES = new InheritableThreadLocal();
-        RESOURCES.set(new HashMap<>());
+        THREAD_LOCAL = new InheritableThreadLocal();
+        THREAD_LOCAL.set(new HashMap<>());
     }
 
     public static void withInitial() {
         removeResources();
-        RESOURCES = ThreadLocal.withInitial(HashMap::new);
+        THREAD_LOCAL = ThreadLocal.withInitial(HashMap::new);
     }
 
     public static void removeResources() {
-        if (Objects.nonNull(RESOURCES)) {
-            RESOURCES.remove();
+        if (THREAD_LOCAL.get() != null) {
+            THREAD_LOCAL.remove();
         }
     }
 
     public static Map<Object, Object> getResources() {
-        if (Objects.isNull(RESOURCES)) {
+        if (THREAD_LOCAL == null || THREAD_LOCAL.get() == null) {
             initThreadLocal();
         }
-        return RESOURCES.get();
+        return THREAD_LOCAL.get();
     }
 
     public static void put(Object key, Object value) {
@@ -63,8 +66,8 @@ public class ThreadLocalUtils {
     }
 
     public static void clear() {
-        if (RESOURCES != null) {
-            RESOURCES.get().clear();
+        if (THREAD_LOCAL != null && THREAD_LOCAL.get() != null) {
+            THREAD_LOCAL.get().clear();
         }
     }
 }
