@@ -81,13 +81,9 @@ public abstract class AbstractIteratorAttributeFiller extends AbstractAttributeF
                 MockProp mockProp = declaredField.getAnnotation(MockProp.class);
                 String[] valueArr = mockProp.value();
 
-                MockPropGroup[] mockPropGroups = mockProp.group();
-                if (mockPropGroups.length > 0) {
-                    // valueArr = mockPropGroups[sequence].value();
-                }
-
                 if (valueArr.length > 0) {
-                    int index = Math.min(sequence, valueArr.length - 1);
+                    // int index = Math.min(sequence, valueArr.length - 1);
+                    int index = sequence % valueArr.length;
                     Class<?> fieldType = declaredField.getType();
                     // If fieldType is List or Set Type
                     if (ReflectUtils.isCollection(fieldType)) {

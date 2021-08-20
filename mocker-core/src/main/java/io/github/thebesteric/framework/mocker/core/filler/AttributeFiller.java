@@ -59,7 +59,8 @@ public interface AttributeFiller {
             Integer index = (Integer) ThreadLocalUtils.getOrDefault(key, 0);
             if (value instanceof String[]) {
                 String[] arr = ((String[]) value);
-                index = Math.min(index, arr.length - 1);
+                // index = Math.min(index, arr.length - 1);
+                index = index % arr.length;
                 value = arr[index];
             }
             doPopulateInstance(mockInstance, field, value);
