@@ -1,6 +1,7 @@
 package io.github.thebesteric.framework.mocker.unit.test.demo;
 
 import io.github.thebesteric.framework.mocker.annotation.MockProp;
+import io.github.thebesteric.framework.mocker.annotation.MockPropGroup;
 import lombok.Data;
 
 /**
@@ -18,4 +19,11 @@ public class Order {
 
     @MockProp({"name-1", "name-2", "name-3"})
     private String name;
+
+    @MockProp(group = {
+            @MockPropGroup({"pcms01_01", "pcms01_02"}),
+            @MockPropGroup({"pcms02_01", "pcms02_02"}),
+            @MockPropGroup({"pcms03_01", "pcms03_02"})
+    })
+    private String[] arr;
 }
