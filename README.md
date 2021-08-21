@@ -1,11 +1,11 @@
 ### Quick Start
 
-- Download
+- [Download By Maven Center](https://search.maven.org/search?q=g:io.github.thebesteric.framework.mocker)
 ```xml
 <dependency>
   <groupId>io.github.thebesteric.framework.mocker</groupId>
   <artifactId>mocker-core</artifactId>
-  <version>1.0.1</version>
+  <version>${latest.version}</version>
 </dependency>
 ```
 
