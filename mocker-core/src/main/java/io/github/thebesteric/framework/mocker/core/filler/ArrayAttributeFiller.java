@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ArrayAttributeFiller
@@ -50,8 +48,20 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
         if (field.isAnnotationPresent(MockProp.class)) {
             if (isPrimitive(componentClassType) || isWrap(componentClassType) || isString(componentClassType)) {
                 MockProp mockProp = field.getAnnotation(MockProp.class);
-                newArray = mockPropValue(componentClassType, mockProp.value());
+                String[] mockValue = mockProp.value();
+                // process @MockProp's value
+                if (mockValue != null && mockValue.length > 0) {
+                    newArray = mockPropValue(componentClassType, mockValue);
+                }
+                // process @MockPropGroup's value
+                else {
+                    Collection<Object> collection = collectionFiller(mockInstance, classWarp, field, componentClassType, new ArrayList<>(), value);
+                    Object[] objects = collection.toArray();
+                    String[] strArr = Arrays.copyOf(objects, 2, String[].class);
+                    newArray = mockPropValue(componentClassType, strArr);
+                }
                 field.set(mockInstance, newArray);
+
             } else {
                 // Step.1: Confirm repeat length
                 int repeatLength = getRepeatLength(field);

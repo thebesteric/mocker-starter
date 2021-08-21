@@ -128,6 +128,7 @@ public abstract class AbstractIteratorAttributeFiller extends AbstractAttributeF
             MockPropGroup[] mockPropGroups = mockProp.group();
             if (mockPropGroups.length > 0) {
                 Integer groupIndex = (Integer) ThreadLocalUtils.getOrDefault(mockInstance.getClass().getName(), 0);
+                groupIndex = groupIndex % mockPropGroups.length;
                 MockPropGroup mockPropGroup = mockPropGroups[groupIndex];
                 String[] valueArr = mockPropGroup.value();
                 for (String str : valueArr) {
