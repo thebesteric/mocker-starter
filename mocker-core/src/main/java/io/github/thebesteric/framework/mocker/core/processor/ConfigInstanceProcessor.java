@@ -4,8 +4,8 @@ import io.github.thebesteric.framework.mocker.annotation.*;
 import io.github.thebesteric.framework.mocker.commons.utils.CacheUtils;
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.core.domain.ClassWarp;
+import io.github.thebesteric.framework.mocker.core.domain.NonType;
 import io.github.thebesteric.framework.mocker.core.filler.AttributeFiller;
-import io.github.thebesteric.framework.mocker.core.filler.ComplexAttributeFiller;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
@@ -54,7 +54,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                     if (StringUtils.isEmpty(String.valueOf(value))) {
                         value = mockItParam.clazz();
                         Class<?> clazz = (Class<?>) value;
-                        if (ComplexAttributeFiller.NonType.class != clazz) {
+                        if (NonType.class != clazz) {
                             // clazz is null if attribute clazz set Object[].class
                             // e.g: @MockItParam(key = "data", clazz = Order[].class)
                             if (clazz.isArray()) {
@@ -72,7 +72,7 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                                 for (Field attrField : value.getClass().getDeclaredFields()) {
                                     ClassWarp attrClassWarp = new ClassWarp(attrField);
                                     if (attrField.getName().equals(attrKey)) {
-                                        if (StringUtils.isEmpty(String.valueOf(attrValue)) && attrClass != ComplexAttributeFiller.NonType.class) {
+                                        if (StringUtils.isEmpty(String.valueOf(attrValue)) && attrClass != NonType.class) {
                                             Constructor<?> attrConstructor = determineConstructor(attrClass);
                                             attrValue = newInstance(attrConstructor);
                                         }

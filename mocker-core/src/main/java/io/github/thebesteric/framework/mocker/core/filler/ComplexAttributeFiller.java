@@ -147,16 +147,4 @@ public class ComplexAttributeFiller extends AbstractAttributeFiller {
     public static void clearMockInstanceRecurseTimes() {
         mockInstanceRecurseTimes = 0;
     }
-
-    /**
-     * NonValue Class
-     *
-     * @author Eric
-     * @date 2021/6/1 2:27
-     */
-    public static class NonType {
-        private NonType() {
-            super();
-        }
-    }
 }

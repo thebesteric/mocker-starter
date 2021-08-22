@@ -2,6 +2,7 @@ package io.github.thebesteric.framework.mocker.core.filler;
 
 import io.github.thebesteric.framework.mocker.commons.utils.ReflectUtils;
 import io.github.thebesteric.framework.mocker.configuration.MockerProperties;
+import io.github.thebesteric.framework.mocker.core.domain.NonType;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -95,7 +96,7 @@ public abstract class AbstractAttributeFiller implements AttributeFiller, Applic
      * @date 2021-05-27 18:44
      */
     public boolean isComplex(Class<?> clazz) {
-        return ReflectUtils.isComplex(clazz) && ComplexAttributeFiller.NonType.class != clazz;
+        return ReflectUtils.isComplex(clazz) && NonType.class != clazz;
     }
 
     /**

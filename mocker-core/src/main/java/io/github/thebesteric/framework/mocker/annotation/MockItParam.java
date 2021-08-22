@@ -1,6 +1,6 @@
 package io.github.thebesteric.framework.mocker.annotation;
 
-import io.github.thebesteric.framework.mocker.core.filler.ComplexAttributeFiller;
+import io.github.thebesteric.framework.mocker.core.domain.NonType;
 
 import java.lang.annotation.*;
 
@@ -19,7 +19,7 @@ public @interface MockItParam {
 
     String value() default "";
 
-    Class<?> clazz() default ComplexAttributeFiller.NonType.class;
+    Class<?> clazz() default NonType.class;
 
     MockItAttr[] attrs() default {};
 }
