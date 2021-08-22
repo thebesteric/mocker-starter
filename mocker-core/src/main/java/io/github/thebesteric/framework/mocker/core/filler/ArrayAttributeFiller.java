@@ -57,7 +57,7 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
                 else {
                     Collection<Object> collection = collectionFiller(mockInstance, classWarp, field, componentClassType, new ArrayList<>(), value);
                     Object[] objects = collection.toArray();
-                    String[] strArr = Arrays.copyOf(objects, 2, String[].class);
+                    String[] strArr = Arrays.copyOf(objects, objects.length, String[].class);
                     newArray = mockPropValue(componentClassType, strArr);
                 }
                 field.set(mockInstance, newArray);
