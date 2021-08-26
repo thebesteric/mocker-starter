@@ -17,6 +17,7 @@ public class ClassWarp {
     private Field field;
     private Class<?> clazz;
     private boolean array;
+    private Integer arrayLength;
 
     public ClassWarp(Field field) {
         this.field = field;

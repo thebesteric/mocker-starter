@@ -21,5 +21,8 @@ public @interface MockItParam {
 
     Class<?> clazz() default NonType.class;
 
+    // Assign array type length
+    String length() default "-1";
+
     MockItAttr[] attrs() default {};
 }

@@ -56,11 +56,12 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
                         Class<?> clazz = (Class<?>) value;
                         if (NonType.class != clazz) {
                             // clazz is null if attribute clazz set Object[].class
-                            // e.g: @MockItParam(key = "data", clazz = Order[].class)
+                            // e.g: @MockItParam(key = "data", clazz = Order[].class, length = 3)
                             if (clazz.isArray()) {
                                 clazz = clazz.getComponentType();
                                 classWarp.setClazz(clazz);
                                 classWarp.setArray(true);
+                                classWarp.setArrayLength(Integer.parseInt(mockItParam.length()));
                             }
                             Constructor<?> constructor = determineConstructor(clazz);
                             value = newInstance(constructor);

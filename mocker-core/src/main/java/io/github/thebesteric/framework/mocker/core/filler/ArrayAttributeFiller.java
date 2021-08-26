@@ -134,14 +134,18 @@ public class ArrayAttributeFiller extends AbstractIteratorAttributeFiller {
             return value;
         }
         // clazz is null if attribute clazz set Object[].class
-        // e.g: @MockItParam(key = "data", clazz = Order[].class)
+        // e.g: @MockItParam(key = "data", clazz = Order[].class, length = 1)
         if (clazz == null) {
             clazz = classWarp.getClazz();
         }
 
-        ClassWarp classWarp = new ClassWarp(clazz);
+        Integer arrayLength = classWarp.getArrayLength();
+        if (arrayLength == null || arrayLength <= 0) {
+            arrayLength = getProperties().getIteratorLength();
+        }
 
-        Object newArray = Array.newInstance(clazz, getProperties().getIteratorLength());
+        ClassWarp classWarp = new ClassWarp(clazz);
+        Object newArray = Array.newInstance(clazz, arrayLength);
         for (int i = 0; i < Array.getLength(newArray); i++) {
             for (AttributeFiller attributeFiller : getAttributeFillers()) {
                 if (attributeFiller.match(classWarp)) {
