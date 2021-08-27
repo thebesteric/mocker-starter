@@ -24,5 +24,9 @@ public @interface MockItParam {
     // Assign array type length
     String length() default "-1";
 
+    // Assign value class when is Object.class
+    // e.g. @MockItParam(key = "price", value = "100", type = Integer.class),
+    Class<?> type() default NonType.class;
+
     MockItAttr[] attrs() default {};
 }

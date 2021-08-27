@@ -17,14 +17,20 @@ import java.nio.charset.StandardCharsets;
  */
 public class WarpAttributeFiller extends AbstractAttributeFiller {
 
+    private ClassWarp classWarp;
+
     @Override
     public boolean match(ClassWarp classWarp) {
+        this.classWarp = classWarp;
         return isWrap(classWarp.getClazz());
     }
 
     @Override
     public void doPopulateInstance(Object mockInstance, Field field, Object value) throws Throwable {
         Class<?> fieldClassType = field.getType();
+        if (fieldClassType == Object.class) {
+            fieldClassType = classWarp.getClazz();
+        }
         field.set(mockInstance, mockValue(fieldClassType, mockInstance, value));
     }
 

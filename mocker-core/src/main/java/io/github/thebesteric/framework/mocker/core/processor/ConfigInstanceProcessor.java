@@ -46,6 +46,10 @@ public class ConfigInstanceProcessor extends AbstractConstructorInstanceProcesso
             String key = mockItParam.key();
             for (Field field : returnCassType.getDeclaredFields()) {
                 ClassWarp classWarp = new ClassWarp(field);
+                Class<?> type = mockItParam.type();
+                if (type != NonType.class && (ReflectUtils.isWrap(type) || ReflectUtils.isPrimitive(type))) {
+                    classWarp.setClazz(mockItParam.type());
+                }
                 Object value;
                 if (!ReflectUtils.isFinal(field) && field.getName().equals(key)) {
                     // process if simple attributes
