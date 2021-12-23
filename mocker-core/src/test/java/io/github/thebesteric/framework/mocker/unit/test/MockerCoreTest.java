@@ -94,4 +94,11 @@ public class MockerCoreTest {
         System.out.println(JsonUtils.toJsonStr(testController.mock()));
     }
 
+    @Test
+    @DisplayName("testAdapter")
+    public void testAdapter() throws Exception {
+        TestController testController = applicationContext.getBean(TestController.class);
+        System.out.println(JsonUtils.toJsonStr(testController.testAdapter()));
+    }
+
 }

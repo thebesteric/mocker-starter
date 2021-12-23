@@ -2,7 +2,9 @@ package io.github.thebesteric.framework.mocker.unit.test.demo;
 
 import io.github.thebesteric.framework.mocker.annotation.*;
 import io.github.thebesteric.framework.mocker.unit.test.demo.domain.ProductDetailResponse;
+import io.github.thebesteric.framework.mocker.unit.test.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,6 +98,18 @@ public class TestController extends BaseController {
     @GetMapping("/configDifficult")
     public R configDifficult() {
         return R.success();
+    }
+
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/adapter")
+    public R testAdapter() {
+        System.out.println("BEFORE doing something");
+        User user = userService.getUser("1");
+        System.out.println("AFTER doing something");
+        return R.success(user);
     }
 
 }
