@@ -157,34 +157,6 @@
             <type>maven-plugin</type>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
-            <type>maven-plugin</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.sonatype.plexus</groupId>
-                    <artifactId>plexus-cipher</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
-        <dependency>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
-            <type>maven-plugin</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.sonatype.plexus</groupId>
-                    <artifactId>plexus-cipher</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-cipher -->
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
